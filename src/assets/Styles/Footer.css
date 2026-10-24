@@ -1,0 +1,218 @@
+.footer {
+    background-color: var(--color-light-bg);
+    border-top: 2px solid var(--color-accent);
+
+    padding: var(--spacing-xl) var(--spacing-lg);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+
+    position: relative;
+    /* Pour positionnement absolu de la signature */
+    min-height: 200px;
+
+    margin-top: auto;
+    /* Coller en bas de page si peu de contenu */
+}
+
+/* 
+   SECTION CATÉGORIES
+    */
+
+.footer__categories {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-xl);
+
+    flex-wrap: wrap;
+
+    width: 100%;
+}
+
+.footer__category {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+
+    cursor: pointer;
+    text-decoration: none;
+
+    transition: all var(--transition-smooth);
+    position: relative;
+}
+
+.footer__category-number {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-accent);
+
+    letter-spacing: 2px;
+}
+
+.footer__category-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-primary);
+
+    transition: color var(--transition-smooth);
+
+    padding-bottom: 4px;
+    border-bottom: 2px solid transparent;
+    transition: border-color var(--transition-smooth);
+}
+
+/* Hover effect sur la catégorie */
+.footer__category:hover {
+    transform: translateY(-4px);
+    /* Petit lift au survol */
+}
+
+.footer__category:hover .footer__category-name {
+    color: var(--color-gold);
+    border-bottom-color: var(--color-gold);
+}
+
+.footer__category:hover .footer__category-number {
+    color: var(--color-gold);
+    text-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+}
+
+/* 
+   SECTION SIGNATURE
+  */
+
+.footer__signature {
+    position: absolute;
+    bottom: var(--spacing-md);
+    right: var(--spacing-lg);
+
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-primary);
+
+    letter-spacing: 1px;
+
+    opacity: 0.7;
+    transition: opacity var(--transition-smooth);
+}
+
+.footer__signature:hover {
+    opacity: 1;
+}
+
+.footer__signature-highlight {
+    color: var(--color-gold);
+    font-weight: 700;
+}
+
+/*
+   RESPONSIVE : TABLETTE (768px à 1024px)
+    */
+
+@media (max-width: 1024px) {
+    .footer {
+        padding: var(--spacing-lg) var(--spacing-md);
+        min-height: 180px;
+    }
+
+    .footer__categories {
+        gap: var(--spacing-lg);
+    }
+
+    .footer__signature {
+        right: var(--spacing-md);
+        bottom: var(--spacing-sm);
+        font-size: 0.8rem;
+    }
+}
+
+/* 
+   RESPONSIVE : MOBILE (< 768px)
+    */
+
+@media (max-width: 768px) {
+    .footer {
+        padding: var(--spacing-lg) var(--spacing-md);
+        gap: var(--spacing-md);
+        min-height: auto;
+    }
+
+    .footer__categories {
+        flex-direction: column;
+        /* Stack vertical */
+        gap: var(--spacing-md);
+    }
+
+    .footer__category {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        padding: var(--spacing-md);
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: var(--border-radius);
+
+        border-left: 4px solid var(--color-accent);
+    }
+
+    .footer__category:hover {
+        background: rgba(212, 175, 55, 0.1);
+        transform: none;
+        /* Pas de lift sur mobile */
+    }
+
+    .footer__category-number {
+        order: 1;
+    }
+
+    .footer__category-name {
+        order: 2;
+    }
+
+    .footer__signature {
+        position: static;
+        margin-top: var(--spacing-md);
+        text-align: center;
+        opacity: 0.6;
+    }
+}
+
+/* 
+   ANIMATIONS
+   */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.footer {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.footer__category {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.footer__category:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.footer__category:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.footer__category:nth-child(3) {
+    animation-delay: 0.3s;
+}
