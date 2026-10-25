@@ -157,12 +157,12 @@ html {
 }
 
 body {
-  font-family: var(--font-family-sans);
-  font-size: var(--font-size-base);
+  font-family: var(--font-texte);
+  font-size: 1.0625rem;
   font-weight: var(--font-weight-normal);
   line-height: var(--line-height-normal);
-  color: var(--color-black);
-  background-color: var(--color-bg-primary);
+  color: var(--texte);
+  background-color: var(--nuit);
   overflow-x: hidden;
 
   /* Smooth rendering */
@@ -181,9 +181,10 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: var(--font-weight-bold);
+  font-family: var(--font-titre);
+  font-weight: 600;
   line-height: var(--line-height-tight);
-  color: var(--color-primary-dark);
+  color: var(--titre);
   margin-bottom: var(--spacing-md);
 }
 
@@ -217,7 +218,7 @@ h6 {
 p {
   margin-bottom: var(--spacing-md);
   line-height: var(--line-height-normal);
-  color: var(--color-gray-dark);
+  color: var(--texte);
 }
 
 p:last-child {
@@ -227,7 +228,7 @@ p:last-child {
 strong,
 b {
   font-weight: var(--font-weight-bold);
-  color: var(--color-primary-dark);
+  color: var(--titre);
 }
 
 em,
@@ -253,15 +254,15 @@ li {
 
 /* Liens */
 a {
-  color: var(--color-primary-light);
+  color: var(--or);
   text-decoration: none;
   transition: color var(--transition-fast), opacity var(--transition-fast);
   cursor: pointer;
 }
 
 a:hover {
-  color: var(--color-secondary-accent);
-  text-decoration: underline;
+  color: var(--titre);
+  text-decoration: none;
 }
 
 a:active {
@@ -280,7 +281,7 @@ input[type="submit"] {
 }
 
 button:focus {
-  outline: 2px solid var(--color-primary-mint);
+  outline: 1px solid var(--or);
   outline-offset: 2px;
 }
 
@@ -328,7 +329,7 @@ img {
   max-width: 100%;
   height: auto;
   display: block;
-  border-radius: var(--border-radius-md);
+  border-radius: 0;
 }
 
 /* ====================================================================
@@ -773,21 +774,21 @@ main {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-bg-secondary);
+  background: var(--nuit);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-primary-light);
+  background: rgba(201, 164, 92, 0.45);
   border-radius: var(--border-radius-full);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-primary-dark);
+  background: var(--or);
 }
 
 /* Firefox */
 * {
-  scrollbar-color: var(--color-primary-light) var(--color-bg-secondary);
+  scrollbar-color: rgba(201, 164, 92, 0.45) var(--nuit);
   scrollbar-width: thin;
 }
 
@@ -810,24 +811,159 @@ main {
     display: none;
   }
 }
-/* Le <main> d'App.jsx devient une colonne flex : la page enfant (ex. l'accueil)
-   peut remplir tout l'espace restant entre le header et le footer */
-.app-main {
-    display: flex;
-    flex-direction: column;
-}
+
 
 /* ====================================================================
-   10. THÈME DES BANDEAUX (Header + Footer + hero catégories)
+   10. DIRECTION ARTISTIQUE CacSaï (inspirée de WhiskyV2)
    ====================================================================
-   Couleurs reprises du logo (noir, vert forêt, or) + motif SVG inline :
-   branche de bonsaï, feuilles et étoiles d'épines de cactus.
-   SVG en data-URI : "#" doit être écrit "%23" dans l'URL.
+   Nuit végétale + or : fond très sombre, filets dorés fins, titres gravés
+   (Cinzel), texte élégant (Cormorant), petits libellés espacés (Lato).
+   Les composants lisent ces variables : changer une couleur ici la
+   change partout.
    ==================================================================== */
 
 :root {
-  --banner-gradient: linear-gradient(120deg, #13241a 0%, #1d3a28 55%, #2b2a17 100%);
-  --banner-text: #f3ead7;
-  --banner-gold: #d4af37;
-  --pattern-botanical: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='90' viewBox='0 0 180 90'><g fill='none' stroke='%23d4af37' stroke-opacity='0.22' stroke-width='1.3' stroke-linecap='round'><path d='M-5 70C25 62 40 44 70 48S110 36 130 22'/><path d='M70 48C76 58 88 62 98 60'/><path d='M140 70h8M144 66v8M141 67l6 6M147 67l-6 6'/><path d='M20 20h6M23 17v6M21 18l4 4M25 18l-4 4'/></g><g fill='%238bc34a' fill-opacity='0.16'><path d='M38 58c4-9 12-12 18-11-3 8-10 12-18 11z'/><path d='M60 44c2-8 9-13 15-13-1 8-7 13-15 13z'/><path d='M112 34c5-7 13-8 18-6-4 7-11 9-18 6z'/><path d='M96 60c6-4 13-3 16 0-5 4-12 4-16 0z'/></g></svg>");
+  /* Couleurs */
+  --nuit: #0b100c;              /* fond général */
+  --nuit-carte: rgba(14, 20, 16, 0.78);
+  --texte: #e6e1d8;
+  --titre: #ece6da;
+  --muted: #9b968d;
+  --or: #c9a45c;
+  --or-clair: #e2c48a;
+  --or-glow: rgba(201, 164, 92, 0.35);
+  --or-filet: rgba(201, 164, 92, 0.35);
+  --bordure: rgba(255, 255, 255, 0.08);
+
+  /* Polices (chargées dans index.html) */
+  --font-titre: 'Cinzel', 'Times New Roman', serif;
+  --font-texte: 'Cormorant Garamond', Georgia, serif;
+  --font-ui: 'Lato', 'Helvetica Neue', Arial, sans-serif;
+
+  /* Bandeaux Header / Footer : dégradé du logo + motif botanique */
+  --banner-gradient: linear-gradient(120deg, #0a120d 0%, #13241a 55%, #1c1a10 100%);
+  --banner-text: var(--texte);
+  --banner-gold: var(--or);
+  /* Motif SVG inline : branche de bonsaï, feuilles, étoiles d'épines.
+     Dans une URL data, "#" s'écrit "%23". */
+  --pattern-botanical: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='90' viewBox='0 0 180 90'><g fill='none' stroke='%23c9a45c' stroke-opacity='0.16' stroke-width='1.2' stroke-linecap='round'><path d='M-5 70C25 62 40 44 70 48S110 36 130 22'/><path d='M70 48C76 58 88 62 98 60'/><path d='M140 70h8M144 66v8M141 67l6 6M147 67l-6 6'/><path d='M20 20h6M23 17v6M21 18l4 4M25 18l-4 4'/></g><g fill='%238bc34a' fill-opacity='0.1'><path d='M38 58c4-9 12-12 18-11-3 8-10 12-18 11z'/><path d='M60 44c2-8 9-13 15-13-1 8-7 13-15 13z'/><path d='M112 34c5-7 13-8 18-6-4 7-11 9-18 6z'/><path d='M96 60c6-4 13-3 16 0-5 4-12 4-16 0z'/></g></svg>");
+
+  /* Mise en page */
+  --page-max: 1100px;
+  --page-gutter: 5%;
+  --transition: 0.35s ease;
+}
+
+/* Petit libellé doré en capitales espacées (au-dessus des titres) */
+.surtitre {
+  margin: 0 0 var(--spacing-sm);
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--or);
+}
+
+/* Filet doré court sous un titre */
+.filet {
+  width: 46px;
+  height: 1px;
+  margin: var(--spacing-lg) 0;
+  background: var(--or);
+}
+
+/* Séparateur de sections en pointillés dorés */
+.separateur {
+  width: 100%;
+  border: 0;
+  border-top: 1px dotted var(--or-filet);
+  margin: var(--spacing-3xl) 0;
+}
+
+/* Lien texte doré souligné (CTA discret, comme "Découvrir la fiche") */
+.lien-or {
+  display: inline-block;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--or-filet);
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--or);
+  transition: color var(--transition), border-color var(--transition);
+}
+
+.lien-or:hover {
+  color: var(--or-clair);
+  border-color: var(--or);
+}
+
+/* ---------------------------------------------------------------------
+   THÈMES DE PAGE (catégories + fiche produit)
+   ---------------------------------------------------------------------
+   Le décor est un calque FIXE derrière la page (::before, z-index -1).
+   isolation: isolate garde ce calque dans la page, sous son contenu.
+   La photo (1024px) est volontairement très assombrie : c'est une
+   ambiance, pas une image à lire, donc son flou ne se voit plus.
+   --------------------------------------------------------------------- */
+
+.theme {
+  position: relative;
+  isolation: isolate;
+  flex: 1;
+}
+
+.theme::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    var(--theme-lueur),
+    linear-gradient(rgba(11, 16, 12, 0.82), rgba(11, 16, 12, 0.92)),
+    var(--theme-photo) center / cover no-repeat;
+}
+
+/* Désert : lueur ambre de coucher de soleil */
+.theme--cactus {
+  --theme-photo: url('@/assets/images/backgrounds/bg-cactus.webp');
+  --theme-lueur: radial-gradient(ellipse 70% 55% at 50% 0%, rgba(214, 140, 64, 0.22), transparent 70%);
+  --theme-accent: #d9a066;
+}
+
+/* Jardin zen : lueur jade et sakura */
+.theme--bonsai {
+  --theme-photo: url('@/assets/images/backgrounds/bg-bonsai.webp');
+  --theme-lueur:
+    radial-gradient(ellipse 60% 50% at 15% 0%, rgba(232, 160, 190, 0.16), transparent 70%),
+    radial-gradient(ellipse 60% 50% at 85% 10%, rgba(90, 160, 120, 0.18), transparent 70%);
+  --theme-accent: #e3a7bd;
+}
+
+/* Conteneur centré des pages intérieures */
+.page {
+  width: 100%;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: var(--spacing-3xl) var(--page-gutter) var(--spacing-3xl);
+}
+
+/* Le <main> d'App.jsx devient une colonne flex : la page enfant (ex. l'accueil)
+   peut remplir tout l'espace restant entre le header et le footer */
+.app-main {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Téléphones : sections moins espacées */
+@media (max-width: 560px) {
+  .page {
+    padding-top: var(--spacing-xl);
+  }
+
+  .separateur {
+    margin: var(--spacing-2xl) 0;
+  }
 }

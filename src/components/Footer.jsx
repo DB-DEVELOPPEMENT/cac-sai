@@ -45,8 +45,10 @@ export default function Footer() {
 
       {/* ========== SIGNATURE (Droite/Bas) ========== */}
       <div className="footer__signature">
-        <p className="footer__signature-highlight">DB-développement</p>
-        <p>© 2024 - 2026</p>
+        <p>
+          © 2024 – 2026 · Conçu et développé par{" "}
+          <span className="footer__signature-highlight">DB-Développement</span>
+        </p>
       </div>
     </footer>
   );

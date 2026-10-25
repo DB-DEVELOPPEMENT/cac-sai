@@ -1,526 +1,385 @@
 /* ============================================================================
-   ProductDetail.css - STYLES PAGE DÉTAIL PRODUIT
+   ProductDetail.css - FICHE PRODUIT (DA WhiskyV2)
    ============================================================================
-   Contient :
-   - Layout 2 colonnes (image gauche + infos droite)
-   - Image agrandie du produit
-   - Infos complètes : nom, prix, description, niveau soin
-   - Caractéristiques spécifiques
-   - Boutons d'actions
-   - Responsive design (stack vertical sur mobile)
-   ============================================================================ */
-
-/* ============================================================================
-   CONTENEUR PRINCIPAL : .product-detail
+   Fil d'Ariane > visuel encadré d'or + infos > conseil + fiche technique
+   > navigation précédent / suivant > retour accueil en italique
    ============================================================================ */
 
 .product-detail {
-    width: 100%;
-    background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
-    padding: 40px 20px;
-    min-height: 100vh;
+    animation: fadeInUp 0.6s ease-out both;
 }
 
-.product-detail-container {
-    max-width: 1000px;
-    margin: 0 auto;
+/* ─────────────────────────────────────────────────────────────────────────
+   FIL D'ARIANE
+   ───────────────────────────────────────────────────────────────────────── */
 
-    /* Layout 2 colonnes */
+.fil-ariane {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-xl);
+    font-family: var(--font-ui);
+    font-size: 0.66rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.fil-ariane a {
+    color: var(--muted);
+}
+
+.fil-ariane a:hover {
+    color: var(--or);
+}
+
+.fil-ariane [aria-current="page"] {
+    color: var(--or);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   EN-TÊTE : visuel + infos
+   ───────────────────────────────────────────────────────────────────────── */
+
+.product-detail__hero {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 48px;
-    align-items: start;
+    grid-template-columns: minmax(0, 380px) minmax(0, 1fr);
+    gap: var(--spacing-3xl);
+    align-items: center;
 }
 
-/* ============================================================================
-   SECTION GAUCHE : IMAGE AGRANDIE
-   ============================================================================ */
-
-.product-detail-image {
-    position: sticky;
-    top: 120px;
-    /* Reste visible quand scroll */
-
-    width: 100%;
+/* Cadre doré double, comme les cartes */
+.product-detail__visuel {
+    position: relative;
     aspect-ratio: 1;
-    max-height: 60vh;
-    /* Évite une image plus haute que l'écran */
-    /* Carré, cohérent avec les cartes produits */
-
-    overflow: hidden;
-    border-radius: 16px;
-
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-    background: white;
-
-    animation: fadeInLeft 0.8s ease-out;
+    padding: 10px;
+    border: 1px solid var(--or-filet);
+    background: var(--nuit-carte);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
 }
 
-.product-image-large {
+.product-detail__visuel::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: 1px solid rgba(201, 164, 92, 0.14);
+    pointer-events: none;
+}
+
+.product-detail__visuel img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center;
-
-    transition: transform 0.4s ease;
+    transition: transform 0.8s ease;
 }
 
-/* Zoom léger au survol */
-.product-detail-image:hover .product-image-large {
-    transform: scale(1.05);
+.product-detail__visuel:hover img {
+    transform: scale(1.03);
 }
 
-/* ============================================================================
-   SECTION DROITE : INFOS PRODUIT
-   ============================================================================ */
-
-.product-detail-info {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-
-    animation: fadeInRight 0.8s ease-out;
+.product-detail__infos {
+    min-width: 0;
 }
 
-/* ============================================================================
-   BADGE CATÉGORIE
-   ============================================================================ */
-
-.product-category-badge {
-    display: inline-block;
-    width: fit-content;
-
-    padding: 8px 16px;
-    border-radius: 20px;
-
-    font-size: 0.85rem;
-    font-weight: 600;
+.product-detail__nom {
+    margin: 0;
+    font-size: clamp(1.9rem, 4vw, 3rem);
+    font-weight: 400;
+    letter-spacing: 0.03em;
     text-transform: uppercase;
-    letter-spacing: 1px;
-
-    /* Couleurs selon catégorie (via dynamique JS) */
-    background: linear-gradient(135deg, #90EE90, #228B22);
-    color: white;
-
-    box-shadow: 0 4px 12px rgba(34, 139, 34, 0.3);
-
-    animation: slideDown 0.6s ease-out;
+    color: var(--titre);
 }
 
-/* ============================================================================
-   NOM PRODUIT
-   ============================================================================ */
-
-.product-detail-name {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #1a1a1a;
-    line-height: 1.2;
-
-    margin: 0;
-    word-break: break-word;
-}
-
-/* ============================================================================
-   PRIX
-   ============================================================================ */
-
-.product-detail-price {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.price-value {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #228B22;
-    /* Vert identité */
-
-    text-shadow: 0 2px 4px rgba(34, 139, 34, 0.2);
-}
-
-.price-label {
-    font-size: 0.85rem;
-    color: #666;
-    font-weight: 500;
-}
-
-/* ============================================================================
-   DESCRIPTION
-   ============================================================================ */
-
-.product-detail-description {
+.product-detail__sous-titre {
+    margin: var(--spacing-xs) 0 0;
+    font-family: var(--font-titre);
     font-size: 1rem;
-    line-height: 1.6;
-    color: #444;
-
-    padding: 20px;
-    border-left: 4px solid #90EE90;
-    background: #f0f8f0;
-    border-radius: 8px;
-
-    margin: 0;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
 }
 
-/* ============================================================================
-   NIVEAU DE SOIN
-   ============================================================================ */
+.product-detail__description {
+    margin: 0 0 var(--spacing-lg);
+    font-size: 1.15rem;
+    line-height: 1.7;
+}
 
-.product-care-level {
+/* Jauge de soin + prix, entre deux filets */
+.product-detail__ligne {
     display: flex;
-    flex-direction: column;
-    gap: 12px;
-
-    padding: 20px;
-    background: #fff9e6;
-    border-radius: 12px;
-    border-left: 4px solid #FFD700;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-md) 0;
+    border-top: 1px solid var(--bordure);
+    border-bottom: 1px solid var(--bordure);
 }
 
-.product-care-level label {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: #333;
-}
-
-.care-stars {
+.jauge {
     display: flex;
-    gap: 8px;
+    align-items: center;
+    gap: var(--spacing-md);
 }
 
-.care-stars .star {
-    font-size: 1.5rem;
-    transition: transform 0.2s ease, color 0.2s ease;
-    cursor: default;
+.jauge__label {
+    font-family: var(--font-ui);
+    font-size: 0.66rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
 }
 
-.care-stars .star.filled {
-    color: #FFD700;
-    /* Or */
-    text-shadow: 0 2px 4px rgba(255, 215, 0, 0.3);
+.jauge__barres {
+    display: flex;
+    gap: 5px;
 }
 
-.care-stars .star.empty {
-    color: #ddd;
+.jauge__barre {
+    width: 22px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.12);
 }
 
-.care-label {
-    font-size: 0.9rem;
-    color: #666;
-    font-weight: 500;
-    text-transform: capitalize;
-    margin-top: 8px;
+.jauge__barre--pleine {
+    background: var(--or);
+    box-shadow: 0 0 6px var(--or-glow);
 }
 
-/* ============================================================================
-   CARACTÉRISTIQUES
-   ============================================================================ */
-
-.product-characteristics {
-    padding: 20px;
-    background: white;
-    border: 2px solid #e0e0e0;
-    border-radius: 12px;
+.product-detail__prix {
+    font-family: var(--font-titre);
+    font-size: 1.4rem;
+    color: var(--or);
 }
 
-.product-characteristics h3 {
-    margin: 0 0 16px 0;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #1a1a1a;
-}
-
-.product-characteristics ul {
-    list-style: none;
+/* Étiquettes arrondies (comme les notes de dégustation de WhiskyV2) */
+.etiquettes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin: var(--spacing-lg) 0 0;
     padding: 0;
+    list-style: none;
+}
+
+.etiquettes li {
     margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    padding: 5px 12px;
+    border: 1px solid var(--bordure);
+    border-radius: 999px;
+    font-family: var(--font-ui);
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
 }
 
-.product-characteristics li {
+/* ─────────────────────────────────────────────────────────────────────────
+   CONSEIL + FICHE TECHNIQUE
+   ───────────────────────────────────────────────────────────────────────── */
+
+.product-detail__colonnes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--spacing-3xl);
+}
+
+.product-detail__titre-section {
+    margin: 0 0 var(--spacing-lg);
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.product-detail__texte {
+    font-size: 1.12rem;
+    line-height: 1.7;
+}
+
+.product-detail__citation {
+    margin: var(--spacing-lg) 0 0;
+    padding-left: var(--spacing-md);
+    border-left: 1px solid var(--or);
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--muted);
+}
+
+.fiche {
+    margin: 0;
+}
+
+.fiche__ligne {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: var(--spacing-md);
+    padding: 10px 0;
+    border-bottom: 1px solid var(--bordure);
+}
+
+.fiche dt {
+    font-family: var(--font-ui);
+    font-size: 0.64rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    align-self: center;
+}
+
+.fiche dd {
+    margin: 0;
+    font-size: 1.08rem;
+    color: var(--texte);
+}
+
+.fiche dd::first-letter {
+    text-transform: uppercase;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   NAVIGATION PRÉCÉDENT / COLLECTION / SUIVANT
+   ───────────────────────────────────────────────────────────────────────── */
+
+.product-detail__navigation {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: var(--spacing-lg);
+}
+
+.nav-produit {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.nav-produit--suivant {
+    text-align: right;
+}
+
+.nav-produit__sens {
+    font-style: italic;
     font-size: 0.95rem;
-    color: #555;
-
-    display: flex;
-    align-items: center;
-    gap: 12px;
-
-    padding: 8px;
-    border-radius: 6px;
-    transition: background 0.3s ease;
+    color: var(--muted);
 }
 
-.product-characteristics li:hover {
-    background: #f5f5f5;
+.nav-produit__nom {
+    font-family: var(--font-titre);
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--titre);
+    transition: color var(--transition);
 }
 
-.product-characteristics strong {
-    color: #228B22;
-    font-weight: 600;
-    min-width: 90px;
+.nav-produit:hover .nav-produit__nom {
+    color: var(--or);
 }
 
-/* ============================================================================
-   ACTIONS (BOUTONS)
-   ============================================================================ */
-
-.product-detail-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-
-    margin-top: 20px;
+.bouton-or {
+    padding: 12px 24px;
+    border: 1px solid var(--or-filet);
+    font-family: var(--font-ui);
+    font-size: 0.66rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--or);
+    transition: background var(--transition), border-color var(--transition);
 }
 
-.product-detail-actions button,
-.product-detail-actions a {
-    padding: 14px 24px;
+.bouton-or:hover {
+    border-color: var(--or);
+    background: rgba(201, 164, 92, 0.08);
+}
 
-    border: none;
-    border-radius: 10px;
-
-    font-size: 1rem;
-    font-weight: 600;
+/* Retour accueil : simple italique élégant, sans icône */
+.product-detail__retour,
+.product-detail__erreur {
     text-align: center;
-    cursor: pointer;
-
-    transition: all 0.3s ease;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
 }
 
-/* Bouton Ajouter au panier (futur) */
-.btn-add-cart {
-    background: linear-gradient(135deg, #228B22, #155b1a);
-    color: white;
-    border: none;
-
-    box-shadow: 0 4px 15px rgba(34, 139, 34, 0.3);
+.product-detail__retour {
+    margin: var(--spacing-2xl) 0 0;
 }
 
-.btn-add-cart:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(34, 139, 34, 0.4);
+.lien-accueil {
+    font-family: var(--font-texte);
+    font-style: italic;
+    font-size: 1.25rem;
+    color: var(--or);
+    transition: color var(--transition), letter-spacing var(--transition);
 }
 
-.btn-add-cart:active {
-    transform: translateY(0);
+.lien-accueil::before {
+    content: '— ';
 }
 
-/* Bouton Voir la catégorie */
-.btn-category {
-    background: white;
-    color: #228B22;
-    border: 2px solid #228B22;
+.lien-accueil::after {
+    content: ' —';
 }
 
-.btn-category:hover {
-    background: #f0f8f0;
-    transform: translateX(-4px);
+.lien-accueil:hover {
+    color: var(--or-clair);
+    letter-spacing: 0.02em;
 }
 
-/* Bouton Retour accueil */
-.btn-home {
-    background: linear-gradient(135deg, #90EE90, #7ED321);
-    color: white;
-    border: none;
-
-    box-shadow: 0 4px 12px rgba(144, 238, 144, 0.3);
+.product-detail__attente {
+    font-style: italic;
+    color: var(--muted);
 }
 
-.btn-home:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(144, 238, 144, 0.4);
+/* ─────────────────────────────────────────────────────────────────────────
+   RESPONSIVE
+   ───────────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 860px) {
+    .product-detail__hero {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-xl);
+    }
+
+    .product-detail__visuel {
+        width: min(100%, 340px);
+        margin: 0 auto;
+    }
+
+    .product-detail__colonnes {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-2xl);
+    }
 }
 
-/* ============================================================================
-   PAGE ERREUR (PRODUIT NON TROUVÉ)
-   ============================================================================ */
+@media (max-width: 560px) {
+    .product-detail__ligne {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 
-.product-detail-error {
-    width: 100%;
-    min-height: 100vh;
+    .product-detail__navigation {
+        grid-template-columns: 1fr 1fr;
+    }
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    /* Le bouton "Toute la collection" passe sur sa propre ligne, en dessous */
+    .product-detail__navigation .bouton-or {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        justify-self: center;
+    }
 
-    background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
-    padding: 40px 20px;
+    .fiche__ligne {
+        grid-template-columns: 110px 1fr;
+    }
 }
 
-.error-container {
-    text-align: center;
-    max-width: 500px;
-}
-
-.error-container h2 {
-    font-size: 2rem;
-    color: #1a1a1a;
-    margin-bottom: 16px;
-}
-
-.error-container p {
-    font-size: 1rem;
-    color: #666;
-    margin-bottom: 30px;
-}
-
-.btn-back {
-    padding: 12px 30px;
-    background: linear-gradient(135deg, #228B22, #155b1a);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-
-    transition: all 0.3s ease;
-}
-
-.btn-back:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(34, 139, 34, 0.3);
-}
-
-/* ============================================================================
-   ANIMATIONS
-   ============================================================================ */
-
-@keyframes fadeInLeft {
+@keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateX(-30px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-@keyframes fadeInRight {
-    from {
-        opacity: 0;
-        transform: translateX(30px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
+        transform: translateY(16px);
     }
 
     to {
         opacity: 1;
         transform: translateY(0);
-    }
-}
-
-/* ============================================================================
-   RESPONSIVE DESIGN
-   ============================================================================ */
-
-/* TABLET (max 1024px) */
-@media (max-width: 1024px) {
-    .product-detail-container {
-        grid-template-columns: 1fr;
-        gap: 40px;
-    }
-
-    .product-detail-image {
-        position: static;
-    }
-
-    .product-detail-name {
-        font-size: 2rem;
-    }
-
-    .price-value {
-        font-size: 1.5rem;
-    }
-}
-
-/* MOBILE (max 768px) */
-@media (max-width: 768px) {
-    .product-detail {
-        padding: 20px 16px;
-    }
-
-    .product-detail-container {
-        gap: 30px;
-    }
-
-    .product-detail-name {
-        font-size: 1.5rem;
-    }
-
-    .price-value {
-        font-size: 1.2rem;
-    }
-
-    .product-detail-description {
-        font-size: 0.9rem;
-        padding: 16px;
-    }
-
-    .product-characteristics {
-        padding: 16px;
-    }
-
-    .product-characteristics li {
-        font-size: 0.85rem;
-    }
-
-    .product-detail-actions button {
-        padding: 12px 20px;
-        font-size: 0.9rem;
-    }
-}
-
-/* MOBILE PETIT (max 480px) */
-@media (max-width: 480px) {
-    .product-detail-name {
-        font-size: 1.2rem;
-    }
-
-    .price-value {
-        font-size: 1rem;
-    }
-
-    .product-detail-actions {
-        gap: 8px;
-    }
-
-    .product-detail-actions button {
-        padding: 10px 16px;
-        font-size: 0.85rem;
-    }
-}
-
-/* ============================================================================
-   ACCESSIBILITÉ
-   ============================================================================ */
-
-@media (prefers-reduced-motion: reduce) {
-
-    .product-detail-image,
-    .product-detail-info,
-    .product-detail-actions button {
-        animation: none;
-        transition: none;
     }
 }

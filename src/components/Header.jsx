@@ -44,7 +44,10 @@ export default function Header() {
 
         {/* Titre de bienvenue */}
         <div className="header__title">
-          <h1 className="header__title-main">Bienvenue dans ma jardinerie</h1>
+          <h1 className="header__title-main">
+            <span className="header__title-accent">Bienvenue</span>
+            <span className="header__title-suite">dans ma jardinerie</span>
+          </h1>
           <p className="header__title-sub">CacSaï · Cactus & Bonsaï</p>
         </div>
       </div>

@@ -11,7 +11,8 @@ import { ProductProvider } from "@/context/ProductContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import publicRouter from "@/router/publicRouter";
-import { useRoutes } from "react-router-dom";
+import { useRoutes, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 /**
  * AppRoutes - Composant interne qui utilise les routes
@@ -19,6 +20,13 @@ import { useRoutes } from "react-router-dom";
  */
 const AppRoutes = () => {
   const routes = useRoutes(publicRouter);
+  const { pathname } = useLocation();
+
+  // À chaque changement de page (ex. produit suivant), on remonte en haut
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
   return routes;
 };
 

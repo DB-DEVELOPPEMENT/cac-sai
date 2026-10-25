@@ -1,191 +1,281 @@
 /* ============================================================================
-   Home.css - STYLES PAGE D'ACCUEIL
+   Home.css - PAGE D'ACCUEIL
    ============================================================================
-   Contient :
-   - Hero section avec background image
-   - Image magasin en overlay (absolute positioning)
-   - Responsive design (mobile, tablet, desktop)
-   - Animations douces
-   ============================================================================ */
-
-/* ============================================================================
-   SECTION PRINCIPALE : .home-hero
-   ============================================================================
-   - Conteneur avec background
-   - Height : couvre viewport ou min-height selon préférence
-   - Position relative pour contexte de positionnement de l'overlay
+   Calques empilés (du fond vers l'avant) :
+   1. .home-hero__fond     photo désert + jardin zen, respiration lente
+   2. .home-hero__calque   voiles sombres (bords, haut, bas) : cachent le flou
+                           de la photo (1024px) et donnent l'ambiance "cinéma"
+   3. .home-hero__decor    pétales de sakura (droite) + sable au vent (gauche)
+   4. .home-hero__magasin  le magasin, fondu dans le paysage par masques
+   5. .home-hero__brume    brume basse qui dérive
+   6. .home-hero__texte    présentation, à droite
    ============================================================================ */
 
 .home-hero {
-    /* Layout */
-    width: 100%;
-    flex: 1;
-    min-height: 480px;
-    padding: 0;
-    /* Remplit l'espace entre header et footer */
     position: relative;
+    flex: 1;
+    min-height: 520px;
+    padding: 0;
     overflow: hidden;
-    /* Cache les débordements (images) */
+    isolation: isolate;
+    background-color: var(--nuit);
 
-    /* Background image : thèmes unis (accueil) */
-    background-image: url('@/assets/images/backgrounds/Accueuil.webp');
-    background-size: cover;
-    /* Image remplit le conteneur */
-    background-position: center 60%;
-    /* Garde le chemin et l'horizon visibles */
-    background-attachment: scroll;
-    /* fixed agrandit l'image (1024px) => flou */
-    background-repeat: no-repeat;
-
-    /* Couleur de fallback si image ne charge pas */
-    background-color: #f5f5f5;
-
-    /* Animation douce au chargement */
-    animation: fadeInBackground 1.2s ease-in-out;
+    /* Les animations utilisent cqw/cqh : % de la taille de CE bloc */
+    container-type: size;
 }
 
-/* Calque d'ambiance entre le fond et le magasin :
-   - fondus haut/bas vers la couleur des bandeaux (raccord header/footer)
-   - vignettage qui adoucit le fond agrandi et guide l'œil vers le magasin */
-.home-hero::before {
-    content: '';
+/* ---------- 1. Photo de fond ---------- */
+.home-hero__fond {
     position: absolute;
     inset: 0;
-    z-index: 1;
-    pointer-events: none;
-
-    background:
-        linear-gradient(to bottom,
-            rgba(19, 36, 26, 0.55) 0%,
-            transparent 18%,
-            transparent 78%,
-            rgba(19, 36, 26, 0.6) 100%),
-        radial-gradient(ellipse at 32% 55%,
-            transparent 40%,
-            rgba(10, 20, 14, 0.4) 100%);
+    background: url('@/assets/images/backgrounds/Accueuil.webp') center 60% / cover no-repeat;
+    animation: respiration 30s ease-in-out infinite alternate;
+    will-change: transform;
 }
 
-/* ============================================================================
-   OVERLAY : .home-hero-overlay
-   ============================================================================
-   - Conteneur pour l'image du magasin
-   - Position absolute centrée
-   - Gère la dimension et position de l'image par-dessus le background
-   ============================================================================ */
-
-.home-hero-overlay {
-    /* Position absolute pour overlayer par-dessus le background */
+/* ---------- 2. Voiles sombres ---------- */
+.home-hero__calque {
     position: absolute;
-    top: 55%;
-    left: 32%;
-    transform: translate(-50%, -50%);
-    /* Déporté à gauche : le texte occupe la droite, comme la maquette */
-
-    /* Image magasin carrée (850x850) */
-    height: 80%;
-    /* Hauteur relative au hero, largeur déduite du ratio */
-    max-width: 90%;
-    /* Jamais plus large que l'écran */
-    aspect-ratio: 1;
-
-    /* Animation d'apparition */
-    animation: slideUpImage 1s ease-out 0.3s both;
-
-    /* Z-index pour être au-dessus du background */
-    z-index: 10;
+    inset: 0;
+    background:
+        /* haut et bas : raccord avec les bandeaux */
+        linear-gradient(to bottom,
+            rgba(10, 18, 13, 0.7) 0%,
+            transparent 22%,
+            transparent 68%,
+            rgba(10, 18, 13, 0.9) 100%),
+        /* côtés : plus sombre à droite pour la lisibilité du texte */
+        linear-gradient(to right,
+            rgba(0, 0, 0, 0.35) 0%,
+            transparent 30%,
+            transparent 50%,
+            rgba(0, 0, 0, 0.6) 100%),
+        rgba(0, 0, 0, 0.15);
 }
 
-/* ============================================================================
-   IMAGE DU MAGASIN : .home-magasin-image
-   ============================================================================
-   - Image du bâtiment jardinerie
-   - Remplit le conteneur overlay
-   - Border-radius pour coins arrondis modernes
-   ============================================================================ */
+/* ---------- 3. Décors animés ---------- */
+.home-hero__decor {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
 
-.home-magasin-image {
-    /* Layout */
+/* Pétale de sakura : forme en amande, rose pâle */
+.petale {
+    position: absolute;
+    top: -4%;
+    left: var(--x);
+    width: var(--taille);
+    height: calc(var(--taille) * 0.7);
+    border-radius: 70% 0 70% 0;
+    background: radial-gradient(circle at 30% 30%, #fde4ee, #e8a5bf);
+    opacity: 0.85;
+    animation: chute var(--duree) linear var(--delai) infinite;
+}
+
+/* Grain de sable emporté par le vent */
+.grain {
+    position: absolute;
+    left: -2%;
+    top: var(--y);
+    width: var(--taille);
+    height: var(--taille);
+    border-radius: 50%;
+    background: #f2d4a0;
+    box-shadow: 0 0 6px rgba(242, 212, 160, 0.8);
+    opacity: 0;
+    animation: vent var(--duree) ease-in-out var(--delai) infinite;
+}
+
+/* ---------- 4. Le magasin ---------- */
+.home-hero__magasin {
+    position: absolute;
+    left: 30%;
+    top: 51%;
+    transform: translate(-50%, -50%);
+    height: 48%;
+    aspect-ratio: 1;
+    max-width: 60%;
+    margin: 0;
+    z-index: 2;
+    animation: apparition 1.4s ease-out 0.2s both;
+}
+
+/* Halo de lumière chaude derrière le magasin : il "s'allume" dans le décor */
+.home-hero__magasin::before {
+    content: '';
+    position: absolute;
+    inset: 10% 5% 0;
+    z-index: -1;
+    background: radial-gradient(ellipse at 50% 60%, rgba(255, 214, 150, 0.35), transparent 70%);
+    filter: blur(20px);
+}
+
+/* Deux masques combinés (intersect) :
+   - radial (rayon 50% = transparent pile au bord de l'image, pas de coupure nette)
+   - linéaire : le ciel du haut et le sol du bas se fondent dans la photo */
+.home-hero__magasin-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* Remplit le conteneur, aspect ratio préservé */
-    object-position: center;
-
-    /* Fusion avec le décor : un masque radial rend les bords transparents,
-       le magasin "sort" du paysage au lieu d'être posé dessus en cadre */
-    border-radius: 0;
-    -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 55%, transparent 100%);
-    mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 55%, transparent 100%);
-    opacity: 0.97;
-    display: block;
-    /* Évite les espacements inline */
-
-    /* Transition lisse pour futur hover effects */
-    transition: transform 0.6s ease, filter 0.6s ease;
+    -webkit-mask-image:
+        radial-gradient(ellipse 50% 50% at 50% 52%, #000 62%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, #000 26%, #000 80%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+        radial-gradient(ellipse 50% 50% at 50% 52%, #000 62%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, #000 26%, #000 80%, transparent 100%);
+    mask-composite: intersect;
+    filter: saturate(1.05) brightness(1.04);
+    transition: transform 0.8s ease, filter 0.8s ease;
 }
 
-/* Hover : légère avancée du magasin */
-.home-hero-overlay:hover .home-magasin-image {
+.home-hero__magasin:hover .home-hero__magasin-img {
     transform: scale(1.03);
-    filter: brightness(1.05);
+    filter: saturate(1.1) brightness(1.1);
 }
 
-/* ============================================================================
-   CONTENU TEXTE : .home-hero-content (optionnel/commenté pour l'instant)
-   ============================================================================
-   - Position absolute, overlay texte
-   - Utilisé si on veut ajouter du texte par-dessus
-   - Laissé en place pour anticipation backend (promos, slogans)
-   ============================================================================ */
+/* ---------- 5. Brume ---------- */
+.home-hero__brume {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 32%;
+    z-index: 3;
+    overflow: hidden;
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(to top, #000 50%, transparent);
+    mask-image: linear-gradient(to top, #000 50%, transparent);
+}
 
-.home-hero-content {
+/* Couche 2x plus large que l'écran, motif répété 2 fois :
+   un décalage de -50% en boucle donne un défilement sans raccord */
+.brume {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 200%;
+    height: 100%;
+    background-repeat: repeat-x;
+    background-size: 50% 100%;
+    animation: derive 120s linear infinite;
+}
+
+.brume--loin {
+    background-image:
+        radial-gradient(ellipse 16% 30% at 20% 70%, rgba(255, 244, 228, 0.22), transparent 70%),
+        radial-gradient(ellipse 14% 26% at 55% 62%, rgba(255, 244, 228, 0.18), transparent 70%),
+        radial-gradient(ellipse 18% 30% at 85% 72%, rgba(255, 244, 228, 0.22), transparent 70%);
+    filter: blur(12px);
+    animation-duration: 150s;
+}
+
+.brume--proche {
+    background-image:
+        radial-gradient(ellipse 22% 42% at 15% 100%, rgba(255, 244, 228, 0.3), transparent 70%),
+        radial-gradient(ellipse 18% 36% at 50% 96%, rgba(255, 244, 228, 0.25), transparent 70%),
+        radial-gradient(ellipse 22% 42% at 82% 100%, rgba(255, 244, 228, 0.3), transparent 70%);
+    filter: blur(18px);
+    animation-duration: 80s;
+    animation-delay: -20s;
+}
+
+/* ---------- 6. Présentation ---------- */
+.home-hero__texte {
     position: absolute;
     top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    z-index: 20;
-    /* Au-dessus de l'image magasin */
-
-    /* Texte */
-    color: white;
-    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-
-    animation: fadeIn 1s ease-in-out;
+    right: var(--page-gutter);
+    transform: translateY(-50%);
+    z-index: 5;
+    width: min(420px, 38%);
+    animation: fadeIn 1.2s ease-out 0.4s both;
 }
 
-.home-hero-content h2 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    font-weight: 700;
+.home-hero__titre {
+    margin: 0;
+    font-size: clamp(2.6rem, 5.6vw, 5.2rem);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--titre);
+    text-shadow: 0 6px 30px rgba(0, 0, 0, 0.5);
 }
 
-.home-hero-content p {
-    font-size: 1.5rem;
-    font-weight: 300;
+.home-hero__tagline {
+    margin: var(--spacing-sm) 0 0;
+    font-style: italic;
+    font-size: clamp(1.3rem, 2.2vw, 1.9rem);
+    color: var(--or);
+}
+
+.home-hero__intro {
+    margin: 0 0 var(--spacing-xl);
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: var(--texte);
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+}
+
+.home-hero__liens {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xl);
 }
 
 /* ============================================================================
    ANIMATIONS
    ============================================================================ */
 
-/* Fade in du background au chargement */
-@keyframes fadeInBackground {
+@keyframes respiration {
     from {
-        opacity: 0;
+        transform: scale(1);
     }
 
     to {
-        opacity: 1;
+        transform: scale(1.06);
     }
 }
 
-/* Slide up de l'image magasin */
-@keyframes slideUpImage {
+@keyframes chute {
+    0% {
+        transform: translate3d(0, 0, 0) rotate(0deg);
+    }
+
+    100% {
+        transform: translate3d(-14cqw, 108cqh, 0) rotate(560deg);
+    }
+}
+
+@keyframes vent {
+    0% {
+        transform: translate3d(0, 0, 0);
+        opacity: 0;
+    }
+
+    15%,
+    70% {
+        opacity: 0.9;
+    }
+
+    100% {
+        transform: translate3d(48cqw, -10cqh, 0);
+        opacity: 0;
+    }
+}
+
+@keyframes derive {
+    to {
+        transform: translate3d(-50%, 0, 0);
+    }
+}
+
+@keyframes apparition {
     from {
         opacity: 0;
-        transform: translate(-50%, -40%);
-        /* Remonte depuis le bas */
+        transform: translate(-50%, -46%);
     }
 
     to {
@@ -194,7 +284,6 @@
     }
 }
 
-/* Fade in du contenu texte */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -206,134 +295,88 @@
 }
 
 /* ============================================================================
-   RESPONSIVE DESIGN
+   RESPONSIVE : tablette et mobile
    ============================================================================
-   Mobile < 768px : dimensions réduites
-   Tablet 768px - 1024px : dimensions moyennes
-   Desktop > 1024px : dimensions optimales
+   Le magasin passe en haut au centre, le texte descend en bas, centré.
    ============================================================================ */
 
-/* TABLET (768px et plus) */
-@media (max-width: 768px) {
+@media (max-width: 860px) {
     .home-hero {
-        min-height: 70vh;
-        /* Réduit un peu la hauteur */
-        background-attachment: scroll;
-        /* Parallax désactivé sur mobile (performance) */
+        min-height: 680px;
     }
 
-    .home-hero-overlay {
-        height: 65%;
-        /* Un peu plus d'espace */
+    .home-hero__fond {
+        background-position: 38% 60%;
     }
 
-    .home-hero-content h2 {
-        font-size: 2rem;
+    .home-hero__calque {
+        background:
+            linear-gradient(to bottom,
+                rgba(10, 18, 13, 0.6) 0%,
+                transparent 18%,
+                transparent 42%,
+                rgba(10, 18, 13, 0.92) 72%),
+            rgba(0, 0, 0, 0.15);
     }
 
-    .home-hero-content p {
-        font-size: 1.2rem;
+    .home-hero__magasin {
+        left: 50%;
+        top: 30%;
+        height: 44%;
+        max-width: 90%;
+    }
+
+    .home-hero__texte {
+        top: auto;
+        bottom: var(--spacing-xl);
+        left: var(--page-gutter);
+        right: var(--page-gutter);
+        transform: none;
+        width: auto;
+        text-align: center;
+    }
+
+    .home-hero__texte .filet {
+        margin: var(--spacing-md) auto;
+    }
+
+    .home-hero__intro {
+        max-width: 460px;
+        margin: 0 auto var(--spacing-lg);
+        font-size: 1.05rem;
+    }
+
+    .home-hero__liens {
+        justify-content: center;
     }
 }
 
-/* MOBILE (max 500px) */
-@media (max-width: 500px) {
+@media (max-width: 480px) {
     .home-hero {
-        min-height: 60vh;
-        /* Sur mobile, moins de hauteur pour laisser place au header/footer */
-        background-size: cover;
-        background-position: center bottom;
-        /* Priorité au bas (souvent plus intéressant) */
+        min-height: 620px;
     }
 
-    .home-hero-overlay {
-        height: auto;
-        width: 85%;
-    }
-
-
-    .home-hero-content h2 {
-        font-size: 1.5rem;
-    }
-
-    .home-hero-content p {
-        font-size: 1rem;
+    .home-hero__magasin {
+        top: 27%;
+        height: 38%;
     }
 }
 
 /* ============================================================================
-   ACCESSIBILITÉ
+   ACCESSIBILITÉ : sans animation si la personne l'a demandé à son système
    ============================================================================ */
 
-/* Reduce motion : respecte les préférences de l'utilisateur */
 @media (prefers-reduced-motion: reduce) {
 
-    .home-hero,
-    .home-hero-overlay,
-    .home-magasin-image {
+    .home-hero__fond,
+    .brume,
+    .home-hero__magasin,
+    .home-hero__texte {
         animation: none;
-        transition: none;
-    }
-}
-
-/* High contrast mode : améliore la lisibilité */
-@media (prefers-contrast: more) {
-    .home-magasin-image {
-        filter: contrast(1.2);
-    }
-}
-/* ============================================================================
-   TITRE : .home-hero-text (comme "BONSAI Mania" sur la maquette)
-   ============================================================================
-   Colonne de droite, face au magasin déporté à gauche
-   ============================================================================ */
-
-.home-hero-text {
-    position: absolute;
-    top: 50%;
-    right: 6%;
-    transform: translateY(-50%);
-    z-index: 15;
-    max-width: 45%;
-
-    text-align: right;
-    animation: fadeIn 1.2s ease-in-out;
-    pointer-events: none;
-}
-
-.home-hero-title {
-    margin: 0;
-    font-size: clamp(2.5rem, 7vw, 6.5rem);
-    font-weight: 800;
-    letter-spacing: 0.12em;
-    line-height: 1;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.95);
-    text-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
-}
-
-.home-hero-tagline {
-    margin: var(--spacing-sm) 0 0;
-    font-family: Georgia, 'Times New Roman', serif;
-    font-style: italic;
-    font-size: clamp(1.2rem, 2.4vw, 2rem);
-    color: var(--banner-gold);
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
-}
-
-/* Tablette / mobile : on revient à une composition centrée */
-@media (max-width: 768px) {
-    .home-hero-overlay {
-        left: 50%;
-        top: 60%;
     }
 
-    .home-hero-text {
-        top: 4%;
-        left: 0;
-        right: 0;
-        transform: none;
-        max-width: none;
-        text-align: center;
+    .petale,
+    .grain {
+        display: none;
     }
 }
