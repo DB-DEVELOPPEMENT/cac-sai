@@ -5,10 +5,15 @@
    1. .home-hero__fond     photo désert + jardin zen, respiration lente
    2. .home-hero__calque   voiles sombres (bords, haut, bas) : cachent le flou
                            de la photo (1024px) et donnent l'ambiance "cinéma"
-   3. .home-hero__decor    pétales de sakura (droite) + sable au vent (gauche)
+   3. .home-hero__decor    fleurs de cerisier (droite) + sable au vent (gauche)
    4. .home-hero__magasin  le magasin, fondu dans le paysage par masques
-   5. .home-hero__brume    brume basse qui dérive
-   6. .home-hero__texte    présentation, à droite
+   5. .home-hero__sol      tumbleweeds qui roulent côté désert
+   6. .home-hero__brume    brume basse qui dérive
+   7. .home-hero__texte    présentation, à droite
+
+   Astuce animation : un élément = un seul `transform`. Pour combiner
+   plusieurs mouvements (avancer + sauter + tourner), on IMBRIQUE des
+   éléments, chacun avec sa propre animation.
    ============================================================================ */
 
 .home-hero {
@@ -20,8 +25,6 @@
     isolation: isolate;
     background-color: var(--nuit);
 
-    /* Les animations utilisent cqw/cqh : % de la taille de CE bloc */
-    container-type: size;
 }
 
 /* ---------- 1. Photo de fond ---------- */
@@ -61,17 +64,37 @@
     pointer-events: none;
 }
 
-/* Pétale de sakura : forme en amande, rose pâle */
-.petale {
+/* Sakura - niveau 1 : la CHUTE (descend en dérivant vers la gauche, vent) */
+.sakura {
     position: absolute;
-    top: -4%;
+    top: -5%;
     left: var(--x);
     width: var(--taille);
-    height: calc(var(--taille) * 0.7);
-    border-radius: 70% 0 70% 0;
-    background: radial-gradient(circle at 30% 30%, #fde4ee, #e8a5bf);
-    opacity: 0.85;
+    height: var(--taille);
     animation: chute var(--duree) linear var(--delai) infinite;
+}
+
+/* Sakura - niveau 2 : le TOURNOIEMENT en 3D (la fleur se retourne en tombant).
+   La durée dépend de --duree : chaque fleur a son propre rythme. */
+.sakura__fleur,
+.sakura__petale {
+    display: block;
+    width: 100%;
+    height: 100%;
+    animation: tournoie calc(var(--duree) / 3) ease-in-out var(--delai) infinite;
+}
+
+.sakura__fleur {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+    opacity: 0.95;
+}
+
+/* Pétale seul : forme en amande, rose pâle */
+.sakura__petale {
+    height: 70%;
+    border-radius: 70% 0 70% 0;
+    background: radial-gradient(circle at 30% 30%, #fff0f5, #eea6c1);
+    opacity: 0.9;
 }
 
 /* Grain de sable emporté par le vent */
@@ -91,10 +114,11 @@
 /* ---------- 4. Le magasin ---------- */
 .home-hero__magasin {
     position: absolute;
-    left: 30%;
-    top: 51%;
+    /* Plus petit + plus haut à gauche = plus loin dans le paysage (perspective) */
+    left: 26%;
+    top: 47%;
     transform: translate(-50%, -50%);
-    height: 48%;
+    height: 44%;
     aspect-ratio: 1;
     max-width: 60%;
     margin: 0;
@@ -112,20 +136,22 @@
     filter: blur(20px);
 }
 
-/* Deux masques combinés (intersect) :
-   - radial (rayon 50% = transparent pile au bord de l'image, pas de coupure nette)
-   - linéaire : le ciel du haut et le sol du bas se fondent dans la photo */
+/* Deux masques combinés (intersect = on ne garde que ce que les DEUX montrent) :
+   - radial : opaque jusqu'à 72% du rayon → les côtés (pergolas, plantes) restent
+     visibles ; rayon 50% = transparent pile au bord, aucune coupure nette
+   - linéaire : le ciel du haut se fond dans la photo ; le bas reste opaque
+     jusqu'à 90% → on voit bien le devant (allée, cactus en pots) */
 .home-hero__magasin-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     -webkit-mask-image:
-        radial-gradient(ellipse 50% 50% at 50% 52%, #000 62%, transparent 100%),
-        linear-gradient(to bottom, transparent 0%, #000 26%, #000 80%, transparent 100%);
+        radial-gradient(ellipse 50% 50% at 50% 56%, #000 72%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, #000 22%, #000 90%, transparent 100%);
     -webkit-mask-composite: source-in;
     mask-image:
-        radial-gradient(ellipse 50% 50% at 50% 52%, #000 62%, transparent 100%),
-        linear-gradient(to bottom, transparent 0%, #000 26%, #000 80%, transparent 100%);
+        radial-gradient(ellipse 50% 50% at 50% 56%, #000 72%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, #000 22%, #000 90%, transparent 100%);
     mask-composite: intersect;
     filter: saturate(1.05) brightness(1.04);
     transition: transform 0.8s ease, filter 0.8s ease;
@@ -136,7 +162,56 @@
     filter: saturate(1.1) brightness(1.1);
 }
 
-/* ---------- 5. Brume ---------- */
+/* ---------- 5. Tumbleweeds ---------- */
+.home-hero__sol {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* Niveau 1 : TRAVERSÉE de gauche à droite (s'arrête vers le milieu, côté désert).
+   Le keyframe "roule" contient une pause invisible : ils passent de temps en temps. */
+.tumbleweed {
+    position: absolute;
+    left: 0;
+    top: var(--y);
+    width: var(--taille);
+    height: var(--taille);
+    animation: roule var(--duree) linear var(--delai) infinite;
+}
+
+/* Niveau 2 : REBONDS sur le sable */
+.tumbleweed__rebond {
+    display: block;
+    width: 100%;
+    height: 100%;
+    animation: rebond var(--rebond) cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Niveau 3 : ROTATION (une boule qui roule tourne dans le sens de la marche) */
+.tumbleweed__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.35)) sepia(0.2);
+    animation: tourne calc(var(--rebond) * 1.6) linear infinite;
+}
+
+/* Ombre au sol : se resserre quand la boule est en l'air (même rythme) */
+.tumbleweed__ombre {
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    bottom: -6%;
+    height: 14%;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(40, 24, 10, 0.45), transparent 70%);
+    animation: ombre var(--rebond) cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* ---------- 6. Brume ---------- */
 .home-hero__brume {
     position: absolute;
     left: 0;
@@ -182,7 +257,7 @@
     animation-delay: -20s;
 }
 
-/* ---------- 6. Présentation ---------- */
+/* ---------- 7. Présentation ---------- */
 .home-hero__texte {
     position: absolute;
     top: 50%;
@@ -239,13 +314,101 @@
     }
 }
 
+/* Chute en zigzag : le vent pousse vers la gauche, par à-coups.
+   vw / vh = % de la largeur / hauteur de l'écran (le hero occupe l'écran) */
 @keyframes chute {
     0% {
-        transform: translate3d(0, 0, 0) rotate(0deg);
+        transform: translate3d(0, 0, 0);
+    }
+
+    25% {
+        transform: translate3d(-6vw, 27vh, 0);
+    }
+
+    50% {
+        transform: translate3d(-3vw, 54vh, 0);
+    }
+
+    75% {
+        transform: translate3d(-10vw, 81vh, 0);
     }
 
     100% {
-        transform: translate3d(-14cqw, 108cqh, 0) rotate(560deg);
+        transform: translate3d(-8vw, 110vh, 0);
+    }
+}
+
+/* La fleur se retourne en 3D tout en pivotant : effet "feuille morte" */
+@keyframes tournoie {
+    0% {
+        transform: rotate3d(1, 0.3, 0, 0deg) rotate(0deg);
+    }
+
+    50% {
+        transform: rotate3d(1, 0.3, 0, 180deg) rotate(90deg);
+    }
+
+    100% {
+        transform: rotate3d(1, 0.3, 0, 360deg) rotate(180deg);
+    }
+}
+
+/* Traversée du tumbleweed : visible ~la moitié du cycle, puis pause invisible
+   (il ne repasse pas en boucle continue, ce serait mécanique) */
+@keyframes roule {
+    0% {
+        transform: translate3d(-12vw, 0, 0);
+        opacity: 0;
+    }
+
+    4% {
+        opacity: 1;
+    }
+
+    48% {
+        opacity: 1;
+    }
+
+    54%,
+    100% {
+        transform: translate3d(56vw, 0, 0);
+        opacity: 0;
+    }
+}
+
+/* Saut : monte (45%), retombe (90%), petit temps au sol */
+@keyframes rebond {
+
+    0%,
+    90%,
+    100% {
+        transform: translateY(0);
+    }
+
+    45% {
+        transform: translateY(-38%);
+    }
+}
+
+/* L'ombre se resserre et pâlit quand la boule est en l'air */
+@keyframes ombre {
+
+    0%,
+    90%,
+    100% {
+        transform: scaleX(1);
+        opacity: 0.9;
+    }
+
+    45% {
+        transform: scaleX(0.6);
+        opacity: 0.35;
+    }
+}
+
+@keyframes tourne {
+    to {
+        transform: rotate(360deg);
     }
 }
 
@@ -261,7 +424,7 @@
     }
 
     100% {
-        transform: translate3d(48cqw, -10cqh, 0);
+        transform: translate3d(48vw, -10vh, 0);
         opacity: 0;
     }
 }
@@ -349,6 +512,12 @@
     .home-hero__liens {
         justify-content: center;
     }
+
+    /* Le texte occupe le bas : on remonte la piste des tumbleweeds
+       entre le magasin et le texte */
+    .home-hero__sol {
+        transform: translateY(-28%);
+    }
 }
 
 @media (max-width: 480px) {
@@ -375,8 +544,9 @@
         animation: none;
     }
 
-    .petale,
-    .grain {
+    .sakura,
+    .grain,
+    .tumbleweed {
         display: none;
     }
 }
