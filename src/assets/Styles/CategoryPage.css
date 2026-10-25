@@ -1,0 +1,263 @@
+/* ============================================================================
+   CATEGORYPAGE.CSS - Styles pour page catégorie (Cactus ou Bonsaï)
+   ============================================================================
+   Contient : Hero banner, background dynamique, section contenu
+   
+   POINTS CLÉ :
+   - Background différent par catégorie (--desert vs --zen)
+   - Hero banner avec titre + sous-titre
+   - Responsive (hero stack sur mobile)
+   - Images de fond (assets/images/backgrounds/)
+   ============================================================================ */
+
+/* ─────────────────────────────────────────────────────────────────────────
+   PAGE CONTENEUR PRINCIPAL
+   ───────────────────────────────────────────────────────────────────────── */
+
+.category-page {
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    /* Background par défaut (crème) */
+    background-color: var(--color-light-bg);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   BACKGROUNDS SPÉCIFIQUES PAR CATÉGORIE
+   ───────────────────────────────────────────────────────────────────────── */
+
+/**
+ * .category-page--desert (pour /cactus)
+ * Background : désert Far West (dunes, squelettes, cactus)
+ * Importer : assets/images/backgrounds/bg-cactus.webp
+ */
+.category-page--desert {
+    background-image: url('@/assets/images/backgrounds/bg-cactus.webp');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    /* Parallax effect */
+}
+
+/**
+ * .category-page--zen (pour /bonsai)
+ * Background : jardin zen japonais (cerisier, temple, lanternes)
+ * Importer : assets/images/backgrounds/bg-bonsai.webp
+ */
+.category-page--zen {
+    background-image: url('@/assets/images/backgrounds/bg-bonsai.webp');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    /* Parallax effect */
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   HERO BANNER (titre + sous-titre)
+   ───────────────────────────────────────────────────────────────────────── */
+
+.category-page__hero {
+    position: relative;
+
+    width: 100%;
+    min-height: 300px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Overlay semi-transparent pour lisibilité du texte */
+    background: linear-gradient(135deg,
+            rgba(45, 80, 22, 0.7) 0%,
+            rgba(45, 80, 22, 0.5) 100%);
+
+    padding: var(--spacing-xl);
+
+    text-align: center;
+}
+
+.category-page__hero-content {
+    z-index: 10;
+    /* Au-dessus de l'overlay */
+
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+/* Titre Hero */
+.category-page__title {
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--color-white);
+
+    line-height: 1.2;
+    margin: 0;
+
+    letter-spacing: 1px;
+
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Sous-titre Hero */
+.category-page__subtitle {
+    font-size: 1.2rem;
+    color: var(--color-light-bg);
+
+    font-weight: 500;
+    line-height: 1.6;
+    margin: 0;
+
+    opacity: 0.95;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   SECTION CONTENU (ProductGrid)
+   ───────────────────────────────────────────────────────────────────────── */
+
+.category-page__content {
+    flex: 1;
+
+    width: 100%;
+
+    background: rgba(255, 255, 255, 0.95);
+    /* Fond blanc semi-transparent */
+
+    padding: var(--spacing-xl) 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   MESSAGE VIDE (aucun produit)
+   ───────────────────────────────────────────────────────────────────────── */
+
+.category-page__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 300px;
+
+    text-align: center;
+    color: #999;
+}
+
+.category-page__empty p {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-primary);
+
+    margin: var(--spacing-sm);
+    line-height: 1.6;
+}
+
+.category-page__empty p:last-child {
+    font-weight: 500;
+    color: #666;
+    font-size: 1rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   RESPONSIVE : TABLETTE (768px à 1024px)
+   ───────────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 1024px) {
+    .category-page__hero {
+        min-height: 250px;
+        padding: var(--spacing-lg);
+    }
+
+    .category-page__title {
+        font-size: 2.5rem;
+    }
+
+    .category-page__subtitle {
+        font-size: 1rem;
+    }
+
+    .category-page__content {
+        padding: var(--spacing-lg) 0;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   RESPONSIVE : MOBILE (< 768px)
+   ───────────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+    .category-page {
+        /* Enlever parallax sur mobile (performance) */
+        background-attachment: scroll;
+    }
+
+    .category-page--desert,
+    .category-page--zen {
+        background-attachment: scroll;
+    }
+
+    .category-page__hero {
+        min-height: 200px;
+        padding: var(--spacing-lg) var(--spacing-md);
+
+        background: linear-gradient(135deg,
+                rgba(45, 80, 22, 0.8) 0%,
+                rgba(45, 80, 22, 0.6) 100%);
+    }
+
+    .category-page__title {
+        font-size: 1.8rem;
+    }
+
+    .category-page__subtitle {
+        font-size: 0.95rem;
+    }
+
+    .category-page__content {
+        padding: var(--spacing-md) 0;
+    }
+
+    .category-page__empty {
+        min-height: 200px;
+        padding: var(--spacing-md);
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   ANIMATIONS
+   ───────────────────────────────────────────────────────────────────────── */
+
+@keyframes slideDownFade {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.category-page__hero-content {
+    animation: slideDownFade 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.category-page__content {
+    animation: fadeInUp 0.7s ease-out 0.2s both;
+    /* Délai + fill-mode */
+}

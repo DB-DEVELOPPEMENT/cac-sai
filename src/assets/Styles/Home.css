@@ -1,0 +1,269 @@
+/* ============================================================================
+   Home.css - STYLES PAGE D'ACCUEIL
+   ============================================================================
+   Contient :
+   - Hero section avec background image
+   - Image magasin en overlay (absolute positioning)
+   - Responsive design (mobile, tablet, desktop)
+   - Animations douces
+   ============================================================================ */
+
+/* ============================================================================
+   SECTION PRINCIPALE : .home-hero
+   ============================================================================
+   - Conteneur avec background
+   - Height : couvre viewport ou min-height selon préférence
+   - Position relative pour contexte de positionnement de l'overlay
+   ============================================================================ */
+
+.home-hero {
+    /* Layout */
+    width: 100%;
+    height: 100vh;
+    /* Pleine hauteur viewport */
+    position: relative;
+    overflow: hidden;
+    /* Cache les débordements (images) */
+
+    /* Background image : thèmes unis (accueil) */
+    background-image: url('@/assets/images/backgrounds/Accueuil.webp');
+    background-size: cover;
+    /* Image remplit le conteneur */
+    background-position: center;
+    /* Centré */
+    background-attachment: fixed;
+    /* Effet parallax (optionnel, peut être lourd sur mobile) */
+    background-repeat: no-repeat;
+
+    /* Couleur de fallback si image ne charge pas */
+    background-color: #f5f5f5;
+
+    /* Animation douce au chargement */
+    animation: fadeInBackground 1.2s ease-in-out;
+}
+
+/* ============================================================================
+   OVERLAY : .home-hero-overlay
+   ============================================================================
+   - Conteneur pour l'image du magasin
+   - Position absolute centrée
+   - Gère la dimension et position de l'image par-dessus le background
+   ============================================================================ */
+
+.home-hero-overlay {
+    /* Position absolute pour overlayer par-dessus le background */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* Centrer exactement */
+
+    /* Dimensions (ratio 16:9 depuis l'image) */
+    width: 90%;
+    /* Responsive : 90% de la largeur disponible */
+    max-width: 1200px;
+    /* Cap maximal sur desktop */
+    aspect-ratio: 16 / 9;
+
+    /* Ombre pour détacher l'image du background */
+    filter: drop-shadow(0 10px 40px rgba(0, 0, 0, 0.3));
+
+    /* Animation d'apparition */
+    animation: slideUpImage 1s ease-out 0.3s both;
+
+    /* Z-index pour être au-dessus du background */
+    z-index: 10;
+}
+
+/* ============================================================================
+   IMAGE DU MAGASIN : .home-magasin-image
+   ============================================================================
+   - Image du bâtiment jardinerie
+   - Remplit le conteneur overlay
+   - Border-radius pour coins arrondis modernes
+   ============================================================================ */
+
+.home-magasin-image {
+    /* Layout */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Remplit le conteneur, aspect ratio préservé */
+    object-position: center;
+
+    /* Apparence */
+    border-radius: 16px;
+    /* Coins légèrement arrondis */
+    display: block;
+    /* Évite les espacements inline */
+
+    /* Transition lisse pour futur hover effects */
+    transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+/* Hover : légère augmentation de scale (optionnel mais sympa) */
+.home-hero-overlay:hover .home-magasin-image {
+    transform: scale(1.02);
+    filter: brightness(1.08);
+}
+
+/* ============================================================================
+   CONTENU TEXTE : .home-hero-content (optionnel/commenté pour l'instant)
+   ============================================================================
+   - Position absolute, overlay texte
+   - Utilisé si on veut ajouter du texte par-dessus
+   - Laissé en place pour anticipation backend (promos, slogans)
+   ============================================================================ */
+
+.home-hero-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 20;
+    /* Au-dessus de l'image magasin */
+
+    /* Texte */
+    color: white;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+
+    animation: fadeIn 1s ease-in-out;
+}
+
+.home-hero-content h2 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.home-hero-content p {
+    font-size: 1.5rem;
+    font-weight: 300;
+}
+
+/* ============================================================================
+   ANIMATIONS
+   ============================================================================ */
+
+/* Fade in du background au chargement */
+@keyframes fadeInBackground {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Slide up de l'image magasin */
+@keyframes slideUpImage {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -40%);
+        /* Remonte depuis le bas */
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+/* Fade in du contenu texte */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* ============================================================================
+   RESPONSIVE DESIGN
+   ============================================================================
+   Mobile < 768px : dimensions réduites
+   Tablet 768px - 1024px : dimensions moyennes
+   Desktop > 1024px : dimensions optimales
+   ============================================================================ */
+
+/* TABLET (768px et plus) */
+@media (max-width: 768px) {
+    .home-hero {
+        height: 80vh;
+        /* Réduit un peu la hauteur */
+        background-attachment: scroll;
+        /* Parallax désactivé sur mobile (performance) */
+    }
+
+    .home-hero-overlay {
+        width: 95%;
+        /* Un peu plus d'espace */
+        max-width: 900px;
+    }
+
+    .home-hero-content h2 {
+        font-size: 2rem;
+    }
+
+    .home-hero-content p {
+        font-size: 1.2rem;
+    }
+}
+
+/* MOBILE (max 500px) */
+@media (max-width: 500px) {
+    .home-hero {
+        height: 60vh;
+        /* Sur mobile, moins de hauteur pour laisser place au header/footer */
+        background-size: cover;
+        background-position: center bottom;
+        /* Priorité au bas (souvent plus intéressant) */
+    }
+
+    .home-hero-overlay {
+        width: 100%;
+        /* Pleine largeur moins padding */
+        padding: 0 20px;
+        /* Petits marges */
+        max-width: 100%;
+    }
+
+    .home-magasin-image {
+        border-radius: 8px;
+        /* Coins moins arrondis en petit */
+    }
+
+    .home-hero-content h2 {
+        font-size: 1.5rem;
+    }
+
+    .home-hero-content p {
+        font-size: 1rem;
+    }
+}
+
+/* ============================================================================
+   ACCESSIBILITÉ
+   ============================================================================ */
+
+/* Reduce motion : respecte les préférences de l'utilisateur */
+@media (prefers-reduced-motion: reduce) {
+
+    .home-hero,
+    .home-hero-overlay,
+    .home-magasin-image {
+        animation: none;
+        transition: none;
+    }
+}
+
+/* High contrast mode : améliore la lisibilité */
+@media (prefers-contrast: more) {
+    .home-magasin-image {
+        filter: contrast(1.2);
+    }
+}

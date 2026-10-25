@@ -1,0 +1,159 @@
+/* ============================================================================
+   PRODUCTGRID.CSS - Styles pour grille de produits (2 col × 3 row)
+   ============================================================================
+   Contient : Layout CSS Grid, titre, message vide
+   
+   POINTS CLÉ :
+   - CSS Grid 2 colonnes (standard)
+   - Responsive 1 colonne sur mobile
+   - Gap (espacement) entre les cartes
+   - Message "Aucun produit" centré
+   ============================================================================ */
+
+/* ─────────────────────────────────────────────────────────────────────────
+   SECTION CONTENEUR PRINCIPAL
+   ───────────────────────────────────────────────────────────────────────── */
+
+.product-grid {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+
+    padding: var(--spacing-xl) var(--spacing-lg);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   TITRE (optionnel)
+   ───────────────────────────────────────────────────────────────────────── */
+
+.product-grid__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-primary);
+
+    text-align: center;
+
+    margin: 0;
+
+    letter-spacing: 0.5px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   GRILLE CSS GRID
+   ───────────────────────────────────────────────────────────────────────── */
+
+.product-grid__container {
+    display: grid;
+
+    /* 2 colonnes égales par défaut */
+    grid-template-columns: repeat(2, 1fr);
+
+    /* Gap : espacement entre les cartes */
+    gap: var(--spacing-lg);
+
+    /* Alignement automatique des cartes */
+    grid-auto-rows: auto;
+
+    width: 100%;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   MESSAGE VIDE (aucun produit)
+   ───────────────────────────────────────────────────────────────────────── */
+
+.product-grid__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 300px;
+
+    grid-column: 1 / -1;
+    /* S'étendre sur toutes les colonnes */
+
+    text-align: center;
+    color: #999;
+
+    background: rgba(139, 195, 74, 0.05);
+    /* Fond vert clair très dilué */
+    border-radius: var(--border-radius);
+    border: 2px dashed var(--color-accent);
+}
+
+.product-grid__empty p {
+    margin: var(--spacing-sm);
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.product-grid__empty p:first-child {
+    font-weight: 600;
+    color: var(--color-primary);
+    font-size: 1.1rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   RESPONSIVE : TABLETTE (768px à 1024px)
+   ───────────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 1024px) {
+    .product-grid {
+        padding: var(--spacing-lg) var(--spacing-md);
+        gap: var(--spacing-lg);
+    }
+
+    .product-grid__container {
+        gap: var(--spacing-md);
+    }
+
+    .product-grid__title {
+        font-size: 1.3rem;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   RESPONSIVE : MOBILE (< 768px)
+   ───────────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+    .product-grid {
+        padding: var(--spacing-lg) var(--spacing-sm);
+        gap: var(--spacing-md);
+    }
+
+    .product-grid__container {
+        /* 1 colonne sur mobile */
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+
+    .product-grid__title {
+        font-size: 1.2rem;
+    }
+
+    .product-grid__empty {
+        min-height: 200px;
+        border: 2px dashed var(--color-accent);
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   ANIMATIONS
+   ───────────────────────────────────────────────────────────────────────── */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.product-grid {
+    animation: fadeIn 0.5s ease-out;
+}

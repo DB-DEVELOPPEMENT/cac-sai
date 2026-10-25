@@ -1,12 +1,11 @@
-
-import { useNavigate } from 'react-router-dom';
-import { useProducts } from '@/context/ProductContext';
-import '@/assets/styles/Footer.css'; // Styles du footer
+import { useNavigate } from "react-router-dom";
+import { useProducts } from "@/context/ProductContext";
+import "@/assets/Styles/Footer.css"; // Styles du footer
 
 export default function Footer() {
-      const navigate = useNavigate();
-       const { handleCategoryChange } = useProducts();
-       /**
+  const navigate = useNavigate();
+  const { handleCategoryChange } = useProducts();
+  /**
    * Gérer le click sur une catégorie
    * @param {string} category - 'bonsai' ou 'cactus'
    * @param {string} path - '/bonsai' ou '/cactus'
@@ -26,7 +25,7 @@ export default function Footer() {
         {/* Catégorie 1 : Bonsaï */}
         <button
           className="footer__category-btn"
-          onClick={() => handleCategoryClick('bonsai', '/bonsai')}
+          onClick={() => handleCategoryClick("bonsai", "/bonsai")}
           aria-label="Voir les bonsaïs"
         >
           <span className="category-number">01</span>
@@ -36,7 +35,7 @@ export default function Footer() {
         {/* Catégorie 2 : Cactus */}
         <button
           className="footer__category-btn"
-          onClick={() => handleCategoryClick('cactus', '/cactus')}
+          onClick={() => handleCategoryClick("cactus", "/cactus")}
           aria-label="Voir les cactus"
         >
           <span className="category-number">02</span>

@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import '@/assets/styles/Header.css'; // Styles du header
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import "@/assets/Styles/Header.css"; // Styles du header
 
 export default function Header() {
   /**
@@ -9,9 +9,7 @@ export default function Header() {
    */
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
- 
   //  TOGGLES & EVENT HANDLERS
-  
 
   /**
    * Basculer l'affichage du menu burger
@@ -29,9 +27,7 @@ export default function Header() {
     setIsMenuOpen(false);
   };
 
- 
   //  JSX RETURN
-  
 
   return (
     <header className="header">
@@ -64,7 +60,7 @@ export default function Header() {
 
         {/* Bouton Menu Burger (visible que sur mobile/tablette) */}
         <button
-          className={`header__burger ${isMenuOpen ? 'open' : ''}`}
+          className={`header__burger ${isMenuOpen ? "open" : ""}`}
           onClick={toggleMenu}
           aria-label="Menu navigation"
           aria-expanded={isMenuOpen}
