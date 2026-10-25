@@ -7,6 +7,7 @@
 // Anticipation backend : Structure prête pour authRouter et adminRouter
 // ============================================================================
 
+import { Link } from "react-router-dom";
 import Home from "@/pages/Public/Home";
 import CategoryPage from "@/pages/Public/CategoryPage";
 import ProductDetail from "@/pages/Public/ProductDetail";
@@ -104,13 +105,15 @@ const publicRouter = [
     // ========================================================================
     path: "*",
     element: (
-      <section className="not-found-page">
+      <section className="page not-found-page">
         <div className="not-found-container">
-          <h1>404 - Page non trouvée</h1>
+          <p className="surtitre">Erreur 404</p>
+          <h1>Page non trouvée</h1>
           <p>La page que vous cherchez n'existe pas.</p>
-          <a href="/" className="btn-home-link">
+          {/* <Link> et pas <a href="/"> : garde le basename (/cac-sai/) en ligne */}
+          <Link to="/" className="lien-accueil">
             Retour à l'accueil
-          </a>
+          </Link>
         </div>
       </section>
     ),

@@ -1,16 +1,16 @@
 // Images importées : Vite les optimise et vérifie qu'elles existent au build
-import cactus01 from '@/assets/images/cactus/cactus-01-astrophytum-asterias.webp';
-import cactus02 from '@/assets/images/cactus/cactus-02-echinocactus-grusonii.webp';
-import cactus03 from '@/assets/images/cactus/cactus-03-copiapoa-cinerea.webp';
-import cactus04 from '@/assets/images/cactus/cactus-04-mammillaria-hahniana.webp';
-import cactus05 from '@/assets/images/cactus/cactus-05-opuntia-microdasys.webp';
-import cactus06 from '@/assets/images/cactus/cactus-06-cereus-monstruosus.webp';
-import bonsai01 from '@/assets/images/bonsai/bonsai-01-shimpaku.webp';
-import bonsai02 from '@/assets/images/bonsai/bonsai-02-pin-noir-japon.webp';
-import bonsai03 from '@/assets/images/bonsai/bonsai-03-erable-automne.webp';
-import bonsai04 from '@/assets/images/bonsai/bonsai-04-ficus-retusa.webp';
-import bonsai05 from '@/assets/images/bonsai/bonsai-05-sakura-fleurs.webp';
-import bonsai06 from '@/assets/images/bonsai/bonsai-06-olivier.webp';
+import cactus01 from '@/assets/Images/cactus/cactus-01-astrophytum-asterias.webp';
+import cactus02 from '@/assets/Images/cactus/cactus-02-echinocactus-grusonii.webp';
+import cactus03 from '@/assets/Images/cactus/cactus-03-copiapoa-cinerea.webp';
+import cactus04 from '@/assets/Images/cactus/cactus-04-mammillaria-hahniana.webp';
+import cactus05 from '@/assets/Images/cactus/cactus-05-opuntia-microdasys.webp';
+import cactus06 from '@/assets/Images/cactus/cactus-06-cereus-monstruosus.webp';
+import bonsai01 from '@/assets/Images/bonsai/bonsai-01-shimpaku.webp';
+import bonsai02 from '@/assets/Images/bonsai/bonsai-02-pin-noir-japon.webp';
+import bonsai03 from '@/assets/Images/bonsai/bonsai-03-erable-automne.webp';
+import bonsai04 from '@/assets/Images/bonsai/bonsai-04-ficus-retusa.webp';
+import bonsai05 from '@/assets/Images/bonsai/bonsai-05-sakura-fleurs.webp';
+import bonsai06 from '@/assets/Images/bonsai/bonsai-06-olivier.webp';
 
 export const products = [
     {

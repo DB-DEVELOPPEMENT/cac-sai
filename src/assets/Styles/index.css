@@ -11,7 +11,7 @@
    6. Animations globales et transitions
    7. Utilitaires réutilisables
    
-   À importer dans main.jsx : import '@/styles/index.css'
+   À importer dans main.jsx : import '@/assets/Styles/index.css'
    ==================================================================== */
 
 /* ====================================================================
@@ -904,8 +904,8 @@ main {
    ---------------------------------------------------------------------
    Le décor est un calque FIXE derrière la page (::before, z-index -1).
    isolation: isolate garde ce calque dans la page, sous son contenu.
-   La photo (1024px) est volontairement très assombrie : c'est une
-   ambiance, pas une image à lire, donc son flou ne se voit plus.
+   La photo (HD, agrandie par IA avec Real-ESRGAN) est volontairement
+   très assombrie : c'est une ambiance, le contenu doit rester lisible.
    --------------------------------------------------------------------- */
 
 .theme {
@@ -928,14 +928,14 @@ main {
 
 /* Désert : lueur ambre de coucher de soleil */
 .theme--cactus {
-  --theme-photo: url('@/assets/images/backgrounds/bg-cactus.webp');
+  --theme-photo: url('@/assets/Images/backgrounds/bg-cactus.webp');
   --theme-lueur: radial-gradient(ellipse 70% 55% at 50% 0%, rgba(214, 140, 64, 0.22), transparent 70%);
   --theme-accent: #d9a066;
 }
 
 /* Jardin zen : lueur jade et sakura */
 .theme--bonsai {
-  --theme-photo: url('@/assets/images/backgrounds/bg-bonsai.webp');
+  --theme-photo: url('@/assets/Images/backgrounds/bg-bonsai.webp');
   --theme-lueur:
     radial-gradient(ellipse 60% 50% at 15% 0%, rgba(232, 160, 190, 0.16), transparent 70%),
     radial-gradient(ellipse 60% 50% at 85% 10%, rgba(90, 160, 120, 0.18), transparent 70%);

@@ -36,7 +36,8 @@ export default function Header() {
         {/* Logo - lien vers accueil */}
         <Link to="/" className="header__logo">
           <img
-            src="/Logo.webp"
+            // Fichier de public/ : on préfixe par BASE_URL ('/' en local, '/cac-sai/' en ligne)
+            src={`${import.meta.env.BASE_URL}Logo.webp`}
             alt="Logo CacSaï"
             className="header__logo-img"
           />

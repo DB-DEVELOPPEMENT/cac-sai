@@ -3,8 +3,8 @@
    ============================================================================
    Calques empilés (du fond vers l'avant) :
    1. .home-hero__fond     photo désert + jardin zen, respiration lente
-   2. .home-hero__calque   voiles sombres (bords, haut, bas) : cachent le flou
-                           de la photo (1024px) et donnent l'ambiance "cinéma"
+   2. .home-hero__calque   voiles sombres (bords, haut, bas) : raccords avec les bandeaux
+                           ambiance "cinéma" et lisibilité du texte
    3. .home-hero__decor    fleurs de cerisier (droite) + sable au vent (gauche)
    4. .home-hero__magasin  le magasin, fondu dans le paysage par masques
    5. .home-hero__sol      tumbleweeds qui roulent côté désert
@@ -31,7 +31,7 @@
 .home-hero__fond {
     position: absolute;
     inset: 0;
-    background: url('@/assets/images/backgrounds/Accueuil.webp') center 60% / cover no-repeat;
+    background: url('@/assets/Images/backgrounds/Accueuil.webp') center 60% / cover no-repeat;
     animation: respiration 30s ease-in-out infinite alternate;
     will-change: transform;
 }
@@ -49,11 +49,11 @@
             rgba(10, 18, 13, 0.9) 100%),
         /* côtés : plus sombre à droite pour la lisibilité du texte */
         linear-gradient(to right,
-            rgba(0, 0, 0, 0.35) 0%,
+            rgba(0, 0, 0, 0.3) 0%,
             transparent 30%,
             transparent 50%,
-            rgba(0, 0, 0, 0.6) 100%),
-        rgba(0, 0, 0, 0.15);
+            rgba(0, 0, 0, 0.55) 100%),
+        rgba(0, 0, 0, 0.06);
 }
 
 /* ---------- 3. Décors animés ---------- */
@@ -74,6 +74,23 @@
     animation: chute var(--duree) linear var(--delai) infinite;
 }
 
+/* PROFONDEUR DE CHAMP (data-plan vient de Home.jsx) :
+   la caméra fait la mise au point sur le plan 1, le reste est flou.
+   C'est ce flou + l'opacité qui fait "film" plutôt que "image collée". */
+.sakura[data-plan="0"] {
+    opacity: 0.4;
+    filter: blur(0.8px) saturate(0.8);
+}
+
+.sakura[data-plan="1"] {
+    opacity: 0.8;
+}
+
+.sakura[data-plan="2"] {
+    opacity: 0.5;
+    filter: blur(2.5px);
+}
+
 /* Sakura - niveau 2 : le TOURNOIEMENT en 3D (la fleur se retourne en tombant).
    La durée dépend de --duree : chaque fleur a son propre rythme. */
 .sakura__fleur,
@@ -84,20 +101,22 @@
     animation: tournoie calc(var(--duree) / 3) ease-in-out var(--delai) infinite;
 }
 
+/* Lumière du couchant : léger halo chaud au lieu d'une ombre noire */
 .sakura__fleur {
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
-    opacity: 0.95;
+    filter: drop-shadow(0 0 3px rgba(255, 210, 220, 0.35));
 }
 
-/* Pétale seul : forme en amande, rose pâle */
+/* Pétale seul : amande translucide (le centre laisse passer la lumière) */
 .sakura__petale {
     height: 70%;
     border-radius: 70% 0 70% 0;
-    background: radial-gradient(circle at 30% 30%, #fff0f5, #eea6c1);
-    opacity: 0.9;
+    background: radial-gradient(ellipse at 35% 25%,
+            rgba(255, 248, 250, 0.95),
+            rgba(244, 182, 204, 0.85) 60%,
+            rgba(226, 140, 170, 0.7));
 }
 
-/* Grain de sable emporté par le vent */
+/* Grain de sable : part avec sa RAFALE (voir @keyframes bourrasque) */
 .grain {
     position: absolute;
     left: -2%;
@@ -105,10 +124,23 @@
     width: var(--taille);
     height: var(--taille);
     border-radius: 50%;
-    background: #f2d4a0;
-    box-shadow: 0 0 6px rgba(242, 212, 160, 0.8);
+    background: rgba(232, 206, 160, 0.9);
+    box-shadow: 0 0 4px rgba(232, 206, 160, 0.5);
     opacity: 0;
-    animation: vent var(--duree) ease-in-out var(--delai) infinite;
+    animation: bourrasque var(--duree) linear var(--delai) infinite;
+}
+
+/* Traînée de sable : fine ligne floue qui file juste avant les grains */
+.trainee {
+    position: absolute;
+    left: 0;
+    top: var(--y);
+    width: var(--largeur);
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(240, 214, 168, 0.4), transparent);
+    filter: blur(1px);
+    opacity: 0;
+    animation: trainee var(--duree) linear var(--delai) infinite;
 }
 
 /* ---------- 4. Le magasin ---------- */
@@ -190,13 +222,40 @@
     animation: rebond var(--rebond) cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-/* Niveau 3 : ROTATION (une boule qui roule tourne dans le sens de la marche) */
+/* Niveau 3 : ROTATION (une boule qui roule tourne dans le sens de la marche).
+   Un léger flou imite le flou de mouvement d'une caméra. */
 .tumbleweed__img {
     display: block;
     width: 100%;
     height: 100%;
-    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.35)) sepia(0.2);
-    animation: tourne calc(var(--rebond) * 1.6) linear infinite;
+    opacity: 0.9;
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.35)) blur(0.4px);
+    animation: tourne calc(var(--rebond) * 2) linear infinite;
+}
+
+/* Perspective atmosphérique : plus loin = plus pâle et plus flou
+   (ordre dans TUMBLEWEEDS : proche, milieu, lointain) */
+.tumbleweed:nth-child(2) {
+    opacity: 0.75;
+}
+
+.tumbleweed:nth-child(3) {
+    opacity: 0.55;
+    filter: blur(0.8px);
+}
+
+/* Nuage de sable soulevé à l'atterrissage (même rythme que le rebond) */
+.tumbleweed__poussiere {
+    position: absolute;
+    left: -10%;
+    right: -10%;
+    bottom: -12%;
+    height: 32%;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(214, 192, 152, 0.55), transparent 70%);
+    filter: blur(3px);
+    opacity: 0;
+    animation: poussiere var(--rebond) ease-out infinite;
 }
 
 /* Ombre au sol : se resserre quand la boule est en l'air (même rythme) */
@@ -412,19 +471,78 @@
     }
 }
 
-@keyframes vent {
+/* Bourrasque : départ brutal (rafale), puis le grain ralentit, retombe un peu,
+   est relancé, et disparaît. Le reste du cycle (50% → 100%) = accalmie.
+   C'est l'irrégularité de la vitesse qui rend le vent crédible. */
+@keyframes bourrasque {
     0% {
         transform: translate3d(0, 0, 0);
         opacity: 0;
     }
 
-    15%,
-    70% {
-        opacity: 0.9;
+    3% {
+        opacity: 0.85;
+    }
+
+    16% {
+        transform: translate3d(26vw, -3vh, 0);
+    }
+
+    28% {
+        transform: translate3d(33vw, 1vh, 0);
+        opacity: 0.7;
+    }
+
+    40% {
+        transform: translate3d(41vw, -2vh, 0);
+        opacity: 0.35;
+    }
+
+    50%,
+    100% {
+        transform: translate3d(45vw, 0, 0);
+        opacity: 0;
+    }
+}
+
+/* Traînée : file très vite au début de la rafale puis s'efface */
+@keyframes trainee {
+    0% {
+        transform: translate3d(-30vw, 0, 0);
+        opacity: 0;
+    }
+
+    4% {
+        opacity: 1;
+    }
+
+    15% {
+        opacity: 0.7;
+    }
+
+    22%,
+    100% {
+        transform: translate3d(55vw, 0, 0);
+        opacity: 0;
+    }
+}
+
+/* Poussière : invisible en l'air, jaillit au contact du sol (~90%) */
+@keyframes poussiere {
+
+    0%,
+    86% {
+        transform: scale(0.4);
+        opacity: 0;
+    }
+
+    92% {
+        transform: scale(0.9);
+        opacity: 0.6;
     }
 
     100% {
-        transform: translate3d(48vw, -10vh, 0);
+        transform: scale(1.5) translateX(-10%);
         opacity: 0;
     }
 }
@@ -546,6 +664,7 @@
 
     .sakura,
     .grain,
+    .trainee,
     .tumbleweed {
         display: none;
     }

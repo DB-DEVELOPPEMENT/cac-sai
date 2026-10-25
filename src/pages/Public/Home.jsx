@@ -18,10 +18,10 @@
 
 import { Link } from "react-router-dom";
 import "@/assets/Styles/Home.css";
-import magasin from "@/assets/images/Mon_Magasin.webp";
+import magasin from "@/assets/Images/Mon_Magasin.webp";
 // Vite transforme ces imports d'images en URL (et vérifie qu'elles existent)
-import fleurCerisier from "@/assets/images/decor/fleur-cerisier.svg";
-import tumbleweed from "@/assets/images/decor/tumbleweed.svg";
+import fleurCerisier from "@/assets/Images/decor/fleur-cerisier.svg";
+import tumbleweed from "@/assets/Images/decor/tumbleweed.svg";
 
 /**
  * SAKURA : pétales et fleurs de cerisier qui tombent côté jardin zen (droite).
@@ -31,32 +31,57 @@ import tumbleweed from "@/assets/images/decor/tumbleweed.svg";
  * - delai  : NÉGATIF → l'animation est "déjà en cours" au chargement,
  *            la pluie de pétales est là dès la première image
  * - fleur  : 1 élément sur 3 est une fleur entière, les autres des pétales
+ * - plan   : PROFONDEUR DE CHAMP (comme une caméra de cinéma) :
+ *            0 = loin (petit, un peu flou, pâle, lent)
+ *            1 = net (zone de mise au point)
+ *            2 = premier plan (grand, très flou = "bokeh", plus rapide)
+ *            Le plan part dans l'attribut data-plan, que le CSS lit.
  */
-const SAKURA = Array.from({ length: 22 }, (_, i) => ({
-  x: 60 + ((i * 23) % 38),
-  delai: -(i * 1.1),
-  duree: 13 + (i % 6) * 2,
-  taille: i % 3 === 0 ? 16 + (i % 4) * 4 : 7 + (i % 4) * 3,
-  fleur: i % 3 === 0,
-}));
+const SAKURA = Array.from({ length: 24 }, (_, i) => {
+  const plan = i % 3;
+  const fleur = i % 4 === 0;
+  const echelle = [0.6, 1, 1.8][plan]; // taille selon le plan
+  return {
+    x: 60 + ((i * 23) % 38),
+    delai: -(i * 1.6),
+    duree: [26, 20, 15][plan] + (i % 5) * 2, // loin = plus lent (parallaxe)
+    taille: Math.round((fleur ? 18 : 9) * echelle),
+    fleur,
+    plan,
+  };
+});
 
 /**
  * TUMBLEWEEDS : boules de broussailles poussées par le vent côté désert.
  * Effet de perspective : plus un tumbleweed est "loin", plus il est petit,
- * haut dans l'image (vers l'horizon) et lent.
+ * haut dans l'image (vers l'horizon), lent et fondu dans la brume.
  */
 const TUMBLEWEEDS = [
-  { y: 80, taille: 96, duree: 17, delai: -2, rebond: 1.1 }, // proche
-  { y: 72, taille: 58, duree: 23, delai: -13, rebond: 0.9 }, // milieu
-  { y: 64, taille: 34, duree: 29, delai: -22, rebond: 0.8 }, // lointain
+  { y: 80, taille: 96, duree: 24, delai: -3, rebond: 1.4 }, // proche
+  { y: 72, taille: 58, duree: 31, delai: -17, rebond: 1.15 }, // milieu
+  { y: 64, taille: 34, duree: 39, delai: -29, rebond: 1 }, // lointain
 ];
 
-/** GRAINS : poussière de sable soulevée par le même vent. */
-const GRAINS = Array.from({ length: 14 }, (_, i) => ({
-  y: 55 + ((i * 17) % 38),
-  delai: -(i * 2.1),
-  duree: 14 + (i % 4) * 4,
-  taille: 2 + (i % 3),
+/**
+ * BOURRASQUES : le sable ne vole pas en continu, il part par RAFALES.
+ * 3 rafales réparties sur un cycle de 15 s. Chaque grain appartient à une
+ * rafale (rafale = i % 3) et part presque en même temps que ses voisins
+ * (petit décalage de 0,15 s) : on voit un "coup de vent" passer.
+ */
+const CYCLE_VENT = 15;
+const RAFALES = [0, 1, 2].map((r) => -(r * CYCLE_VENT) / 3);
+
+const GRAINS = Array.from({ length: 24 }, (_, i) => ({
+  y: 56 + ((i * 17) % 34),
+  delai: RAFALES[i % 3] - Math.floor(i / 3) * 0.15,
+  taille: 1 + (i % 3),
+}));
+
+/** Traînées de sable : 2 fines lignes floues par rafale, juste avant les grains. */
+const TRAINEES = Array.from({ length: 6 }, (_, i) => ({
+  y: 60 + ((i * 11) % 26),
+  delai: RAFALES[i % 3] + 0.3 - Math.floor(i / 3) * 0.4,
+  largeur: 18 + (i % 3) * 8,
 }));
 
 const Home = () => {
@@ -75,6 +100,7 @@ const Home = () => {
           <span
             key={`sakura-${i}`}
             className="sakura"
+            data-plan={s.plan}
             style={{
               "--x": `${s.x}%`,
               "--delai": `${s.delai}s`,
@@ -90,6 +116,19 @@ const Home = () => {
           </span>
         ))}
 
+        {TRAINEES.map((t, i) => (
+          <span
+            key={`trainee-${i}`}
+            className="trainee"
+            style={{
+              "--y": `${t.y}%`,
+              "--delai": `${t.delai}s`,
+              "--duree": `${CYCLE_VENT}s`,
+              "--largeur": `${t.largeur}vw`,
+            }}
+          />
+        ))}
+
         {GRAINS.map((g, i) => (
           <span
             key={`grain-${i}`}
@@ -97,7 +136,7 @@ const Home = () => {
             style={{
               "--y": `${g.y}%`,
               "--delai": `${g.delai}s`,
-              "--duree": `${g.duree}s`,
+              "--duree": `${CYCLE_VENT}s`,
               "--taille": `${g.taille}px`,
             }}
           />
@@ -116,7 +155,8 @@ const Home = () => {
       {/* ===== 5. SOL : tumbleweeds qui roulent devant le magasin =====
           3 niveaux imbriqués = 3 mouvements combinés :
           .tumbleweed (traverse) > __rebond (saute) > __img (tourne)
-          + __ombre posée au sol, qui rétrécit quand la boule saute */}
+          + __ombre posée au sol, qui rétrécit quand la boule saute
+          + __poussiere qui jaillit quand la boule retombe */}
       <div className="home-hero__sol" aria-hidden="true">
         {TUMBLEWEEDS.map((t, i) => (
           <span
@@ -131,6 +171,8 @@ const Home = () => {
             }}
           >
             <span className="tumbleweed__ombre" />
+            {/* Petit nuage de sable soulevé à chaque atterrissage */}
+            <span className="tumbleweed__poussiere" />
             <span className="tumbleweed__rebond">
               <img src={tumbleweed} alt="" className="tumbleweed__img" />
             </span>

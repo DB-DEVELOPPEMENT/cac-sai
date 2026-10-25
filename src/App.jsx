@@ -36,7 +36,8 @@ const AppRoutes = () => {
  */
 const App = () => {
   return (
-    <BrowserRouter>
+    // basename = le "base" de vite.config.js ('/' en local, '/cac-sai/' sur GitHub Pages)
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       {/* ProductProvider : Partage les données produits à TOUS les composants enfants */}
       <ProductProvider>
         {/* Layout standard : Header toujours visible en haut */}
