@@ -810,3 +810,24 @@ main {
     display: none;
   }
 }
+/* Le <main> d'App.jsx devient une colonne flex : la page enfant (ex. l'accueil)
+   peut remplir tout l'espace restant entre le header et le footer */
+.app-main {
+    display: flex;
+    flex-direction: column;
+}
+
+/* ====================================================================
+   10. THÈME DES BANDEAUX (Header + Footer + hero catégories)
+   ====================================================================
+   Couleurs reprises du logo (noir, vert forêt, or) + motif SVG inline :
+   branche de bonsaï, feuilles et étoiles d'épines de cactus.
+   SVG en data-URI : "#" doit être écrit "%23" dans l'URL.
+   ==================================================================== */
+
+:root {
+  --banner-gradient: linear-gradient(120deg, #13241a 0%, #1d3a28 55%, #2b2a17 100%);
+  --banner-text: #f3ead7;
+  --banner-gold: #d4af37;
+  --pattern-botanical: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='90' viewBox='0 0 180 90'><g fill='none' stroke='%23d4af37' stroke-opacity='0.22' stroke-width='1.3' stroke-linecap='round'><path d='M-5 70C25 62 40 44 70 48S110 36 130 22'/><path d='M70 48C76 58 88 62 98 60'/><path d='M140 70h8M144 66v8M141 67l6 6M147 67l-6 6'/><path d='M20 20h6M23 17v6M21 18l4 4M25 18l-4 4'/></g><g fill='%238bc34a' fill-opacity='0.16'><path d='M38 58c4-9 12-12 18-11-3 8-10 12-18 11z'/><path d='M60 44c2-8 9-13 15-13-1 8-7 13-15 13z'/><path d='M112 34c5-7 13-8 18-6-4 7-11 9-18 6z'/><path d='M96 60c6-4 13-3 16 0-5 4-12 4-16 0z'/></g></svg>");
+}

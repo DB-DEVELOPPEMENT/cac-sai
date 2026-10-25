@@ -47,8 +47,8 @@
 .product-grid__container {
     display: grid;
 
-    /* 2 colonnes égales par défaut */
-    grid-template-columns: repeat(2, 1fr);
+    /* 3 colonnes sur desktop (consigne : 3 colonnes) */
+    grid-template-columns: repeat(3, 1fr);
 
     /* Gap : espacement entre les cartes */
     gap: var(--spacing-lg);
@@ -57,6 +57,9 @@
     grid-auto-rows: auto;
 
     width: 100%;
+    max-width: 980px;
+    /* Cartes plus compactes : moins d'agrandissement des photos */
+    margin: 0 auto;
 }
 
 /* ─────────────────────────────────────────────────────────────────────────
@@ -106,6 +109,7 @@
     }
 
     .product-grid__container {
+        grid-template-columns: repeat(2, 1fr);
         gap: var(--spacing-md);
     }
 

@@ -29,11 +29,15 @@
 
     cursor: pointer;
 
-    /* Hover effect : élévation et ombre plus prononcée */
+    /* Taille sobre au repos, la carte s'agrandit seulement au survol / clic */
     &:hover {
-        box-shadow: var(--shadow-medium);
-        transform: translateY(-8px);
-        /* Lift vers le haut */
+        box-shadow: 0 12px 28px rgba(19, 36, 26, 0.22);
+        transform: translateY(-4px) scale(1.04);
+        z-index: 1;
+    }
+
+    &:active {
+        transform: translateY(-2px) scale(1.07);
     }
 }
 
@@ -44,8 +48,8 @@
 .product-card__image-container {
     position: relative;
     width: 100%;
-    aspect-ratio: 4 / 5;
-    /* Ratio 4:5 (portrait) */
+    aspect-ratio: 1;
+    /* Carré : moins recadré/étiré que le 4:5 portrait */
 
     overflow: hidden;
     background: linear-gradient(135deg, var(--color-light-bg) 0%, #f0f0eb 100%);
@@ -64,7 +68,7 @@
 
 /* Zoom image au hover */
 .product-card:hover .product-card__image {
-    transform: scale(1.08);
+    transform: scale(1.05);
     /* Léger zoom au survol */
 }
 
@@ -128,7 +132,7 @@
 
 /* Nom du produit */
 .product-card__name {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 700;
     color: var(--color-primary);
 

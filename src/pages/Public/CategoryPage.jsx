@@ -101,7 +101,7 @@ const CategoryPage = () => {
   // ─────────────────────────────────────────────────────────────────────
 
   return (
-    <main className={`category-page ${getBackgroundClass()}`}>
+    <div className={`category-page ${getBackgroundClass()}`}>
       {/* 
         BANNEAU HERO
         Titre de la catégorie + sous-titre court
@@ -154,7 +154,7 @@ const CategoryPage = () => {
         {isLoading && <LoadingSpinner />}
         {error && <ErrorBanner message={error} />}
       */}
-    </main>
+    </div>
   );
 };
 

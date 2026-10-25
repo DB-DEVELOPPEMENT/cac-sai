@@ -5,6 +5,7 @@
 // ============================================================================
 
 import "@/assets/Styles/Home.css";
+import magasin from "@/assets/images/Mon_Magasin.webp";
 
 /**
  * Home - Page d'accueil
@@ -21,13 +22,19 @@ import "@/assets/Styles/Home.css";
 const Home = () => {
   return (
     <section className="home-hero">
-      {/* 
+      {/* Titre à droite, comme "BONSAI Mania" sur la maquette */}
+      <div className="home-hero-text" aria-hidden="true">
+        <h2 className="home-hero-title">CacSaï</h2>
+        <p className="home-hero-tagline">Cactus &amp; Bonsaï</p>
+      </div>
+
+      {/*
         Image du magasin en overlay
         Position absolute, centrée, avec shadow pour la profondeur
       */}
       <div className="home-hero-overlay">
         <img
-          src="/images/bg-accueil-cac-sai-magasin.webp"
+          src={magasin}
           alt="Façade boutique CacSaï - Jardinerie Cactus & Bonsaï"
           className="home-magasin-image"
         />

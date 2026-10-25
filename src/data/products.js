@@ -1,10 +1,24 @@
+// Images importées : Vite les optimise et vérifie qu'elles existent au build
+import cactus01 from '@/assets/images/cactus/cactus-01-astrophytum-asterias.webp';
+import cactus02 from '@/assets/images/cactus/cactus-02-echinocactus-grusonii.webp';
+import cactus03 from '@/assets/images/cactus/cactus-03-copiapoa-cinerea.webp';
+import cactus04 from '@/assets/images/cactus/cactus-04-mammillaria-hahniana.webp';
+import cactus05 from '@/assets/images/cactus/cactus-05-opuntia-microdasys.webp';
+import cactus06 from '@/assets/images/cactus/cactus-06-cereus-monstruosus.webp';
+import bonsai01 from '@/assets/images/bonsai/bonsai-01-shimpaku.webp';
+import bonsai02 from '@/assets/images/bonsai/bonsai-02-pin-noir-japon.webp';
+import bonsai03 from '@/assets/images/bonsai/bonsai-03-erable-automne.webp';
+import bonsai04 from '@/assets/images/bonsai/bonsai-04-ficus-retusa.webp';
+import bonsai05 from '@/assets/images/bonsai/bonsai-05-sakura-fleurs.webp';
+import bonsai06 from '@/assets/images/bonsai/bonsai-06-olivier.webp';
+
 export const products = [
     {
         id: 'cactus-001',
         name: 'Astrophytum asterias',
         category: 'cactus',
         price: 24.99,
-        image: '/assets/images/cactus/astrophytum-asterias.webp',
+        image: cactus01,
         description: 'Cactus étoilé rare aux formes géométriques parfaites. Sans épines, texture poudreuse blanc-argenté. Très prisé des collectionneurs.',
         careLevel: 'facile', // facile | moyen | difficile
         waterNeeds: 'peu', // peu | moyen | régulier
@@ -19,7 +33,7 @@ export const products = [
         name: 'Echinocactus grusonii',
         category: 'cactus',
         price: 34.99,
-        image: '/assets/images/cactus/echinocactus-grusonii.webp',
+        image: cactus02,
         description: 'Le légendaire Tonneau d\'Or. Cactus sphérique jaune doré avec épines jaune vif. Croissance lente mais impressionnante. Symbole de longévité.',
         careLevel: 'facile',
         waterNeeds: 'peu',
@@ -33,7 +47,7 @@ export const products = [
         name: 'Copiapoa cinerea',
         category: 'cactus',
         price: 29.99,
-        image: '/assets/images/cactus/copiapoa-cinerea.webp',
+        image: cactus03,
         description: 'Cactus chilien spectaculaire. Corps gris bleuté avec épines noires contrastantes. Fleurs jaune brillant en été. Très photogénique.',
         careLevel: 'moyen',
         waterNeeds: 'peu',
@@ -47,7 +61,7 @@ export const products = [
         name: 'Mammillaria hahniana',
         category: 'cactus',
         price: 19.99,
-        image: '/assets/images/cactus/mammillaria-hahniana.webp',
+        image: cactus04,
         description: 'Petite merveille compacte. Épines blanches comme des cheveux. Fleurs rose-magenta en couronne. Parfait pour petit espace.',
         careLevel: 'facile',
         waterNeeds: 'peu',
@@ -61,7 +75,7 @@ export const products = [
         name: 'Opuntia microdasys',
         category: 'cactus',
         price: 22.99,
-        image: '/assets/images/cactus/opuntia-microdasys.webp',
+        image: cactus05,
         description: 'Figuier de Barbarie nain. Coussinets aplatis jaune-vert avec petites épines (glochides) dorées. Très élégant, croissance rapide.',
         careLevel: 'facile',
         waterNeeds: 'moyen',
@@ -75,7 +89,7 @@ export const products = [
         name: 'Cereus monstruosus',
         category: 'cactus',
         price: 44.99,
-        image: '/assets/images/cactus/cereus-monstruosus.webp',
+        image: cactus06,
         description: 'Forme très rare et spectaculaire. Croissance tordue et bosselée créant une silhouette surréaliste. Fleurs blanches nocturnes. Pièce de collection.',
         careLevel: 'difficile',
         waterNeeds: 'peu',
@@ -90,7 +104,7 @@ export const products = [
         name: 'Shimpaku',
         category: 'bonsai',
         price: 79.99,
-        image: '/assets/images/bonsai/shimpaku.webp',
+        image: bonsai01,
         description: 'Genévrier japonais classique. Feuillage dense et léger. Style très travaillé avec équilibre parfait. L\'essence même du bonsaï traditionnel.',
         careLevel: 'moyen',
         waterNeeds: 'régulier',
@@ -105,7 +119,7 @@ export const products = [
         name: 'Pin noir du Japon',
         category: 'bonsai',
         price: 89.99,
-        image: '/assets/images/bonsai/pin-noir-japon.webp',
+        image: bonsai02,
         description: 'Pinacée majestueux aux aiguilles fines et robustes. Tronc puissant, écorce grise impressionnante. Style classique shihou ou moyogi.',
         careLevel: 'difficile',
         waterNeeds: 'régulier',
@@ -119,7 +133,7 @@ export const products = [
         name: 'Érable d\'automne',
         category: 'bonsai',
         price: 69.99,
-        image: '/assets/images/bonsai/erable-automne.webp',
+        image: bonsai03,
         description: 'Acer palmatum spectaculaire. Feuillage délicat rouge-orangé en automne, vert tendre au printemps. Transformations saisonnières magiques.',
         careLevel: 'moyen',
         waterNeeds: 'régulier',
@@ -133,7 +147,7 @@ export const products = [
         name: 'Ficus retusa',
         category: 'bonsai',
         price: 54.99,
-        image: '/assets/images/bonsai/ficus-retusa.webp',
+        image: bonsai04,
         description: 'Figuier robuste et tolérant. Feuilles brillantes vert foncé, petites racines aériennes naturelles. Idéal pour débutants en bonsaï.',
         careLevel: 'facile',
         waterNeeds: 'régulier',
@@ -147,7 +161,7 @@ export const products = [
         name: 'Sakura en fleurs',
         category: 'bonsai',
         price: 99.99,
-        image: '/assets/images/bonsai/sakura-fleurs.webp',
+        image: bonsai05,
         description: 'Cerisier japonais miniaturisé. Floraison spectaculaire rose-blanc au printemps. Très apprécié. Essence poétique du Japon.',
         careLevel: 'difficile',
         waterNeeds: 'régulier',
@@ -161,7 +175,7 @@ export const products = [
         name: 'Olivier',
         category: 'bonsai',
         price: 74.99,
-        image: '/assets/images/bonsai/olivier.webp',
+        image: bonsai06,
         description: 'Olivier méditerranéen millénaire miniaturisé. Tronc gris noueux très caractéristique. Feuillage argenté persistant. Symbole de sagesse.',
         careLevel: 'moyen',
         waterNeeds: 'moyen',

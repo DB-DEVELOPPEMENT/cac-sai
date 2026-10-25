@@ -36,7 +36,7 @@ export default function Header() {
         {/* Logo - lien vers accueil */}
         <Link to="/" className="header__logo">
           <img
-            src="/logo-cac-sai.webp"
+            src="/Logo.webp"
             alt="Logo CacSaï"
             className="header__logo-img"
           />
@@ -44,30 +44,31 @@ export default function Header() {
 
         {/* Titre de bienvenue */}
         <div className="header__title">
-          <h1>Bienvenue dans CacSaï</h1>
-          <p>Jardinerie Cactus & Bonsaï</p>
+          <h1 className="header__title-main">Bienvenue dans ma jardinerie</h1>
+          <p className="header__title-sub">CacSaï · Cactus & Bonsaï</p>
         </div>
       </div>
 
       {/* ========== PARTIE DROITE : Réseaux + Burger ========== */}
       <div className="header__right">
         {/* Réseaux sociaux (visible sur desktop, caché sur mobile) */}
-        <nav className="header__social">
-          <span className="social-link">Instagram</span>
-          <span className="social-link">Facebook</span>
-          <span className="social-link">TikTok</span>
+        <nav className="header__socials" aria-label="Réseaux sociaux">
+          <span className="header__social-link">Share</span>
+          <span className="header__social-link">Facebook</span>
+          <span className="header__social-link">Instagram</span>
+          <span className="header__social-link">Pinterest</span>
         </nav>
 
-        {/* Bouton Menu Burger (visible que sur mobile/tablette) */}
+        {/* Bouton Menu Burger (navigation du site, futur panier/compte) */}
         <button
-          className={`header__burger ${isMenuOpen ? "open" : ""}`}
+          className={`header__burger-btn ${isMenuOpen ? "active" : ""}`}
           onClick={toggleMenu}
           aria-label="Menu navigation"
           aria-expanded={isMenuOpen}
         >
-          <span></span>
-          <span></span>
-          <span></span>
+          <span className="header__burger-line"></span>
+          <span className="header__burger-line"></span>
+          <span className="header__burger-line"></span>
         </button>
       </div>
 

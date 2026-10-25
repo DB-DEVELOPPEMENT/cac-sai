@@ -11,6 +11,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useProducts } from "@/context/ProductContext";
 import "@/assets/Styles/ProductDetail.css";
 
+// Nombre d'étoiles pleines selon le niveau de soin texte de products.js
+const CARE_STARS = { facile: 1, moyen: 2, difficile: 3 };
+
 /**
  * ProductDetail - Affiche les détails complets d'1 produit
  *
@@ -98,7 +101,7 @@ const ProductDetail = () => {
 
           {/* Prix */}
           <div className="product-detail-price">
-            <span className="price-value">${product.price}</span>
+            <span className="price-value">{product.price.toFixed(2)} €</span>
             <span className="price-label">Prix unitaire</span>
           </div>
 
@@ -107,28 +110,22 @@ const ProductDetail = () => {
 
           {/* 
             Niveau de soin (indicateur visuel)
-            Échelle 1-5 : facile à expert
+            Échelle 1-3 : products.js donne 'facile' | 'moyen' | 'difficile'
           */}
           <div className="product-care-level">
             <label>Niveau de soin :</label>
-            <div className="care-stars">
-              {Array.from({ length: 5 }).map((_, i) => (
+            <div className="care-stars" aria-label={`Soin ${product.careLevel}`}>
+              {Array.from({ length: 3 }).map((_, i) => (
                 <span
                   key={i}
-                  className={`star ${i < product.careLevel ? "filled" : "empty"}`}
-                  aria-label={`Étoile ${i + 1}`}
+                  className={`star ${i < CARE_STARS[product.careLevel] ? "filled" : "empty"}`}
+                  aria-hidden="true"
                 >
                   ★
                 </span>
               ))}
             </div>
-            <span className="care-label">
-              {product.careLevel === 1 && "Facile"}
-              {product.careLevel === 2 && "Modéré"}
-              {product.careLevel === 3 && "Moyen"}
-              {product.careLevel === 4 && "Avancé"}
-              {product.careLevel === 5 && "Expert"}
-            </span>
+            <span className="care-label">{product.careLevel}</span>
           </div>
 
           {/* 
@@ -145,10 +142,10 @@ const ProductDetail = () => {
                 <strong>Origine :</strong> {product.origin}
               </li>
               <li>
-                <strong>Arrosage :</strong> {product.watering}
+                <strong>Arrosage :</strong> {product.waterNeeds}
               </li>
               <li>
-                <strong>Lumière :</strong> {product.light}
+                <strong>Lumière :</strong> {product.sunlight}
               </li>
             </ul>
           </div>

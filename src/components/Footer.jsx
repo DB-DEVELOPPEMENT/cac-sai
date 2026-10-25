@@ -24,29 +24,29 @@ export default function Footer() {
       <div className="footer__categories">
         {/* Catégorie 1 : Bonsaï */}
         <button
-          className="footer__category-btn"
+          className="footer__category"
           onClick={() => handleCategoryClick("bonsai", "/bonsai")}
           aria-label="Voir les bonsaïs"
         >
-          <span className="category-number">01</span>
-          <span className="category-name">Bonsaï</span>
+          <span className="footer__category-number">01</span>
+          <span className="footer__category-name">Bonsaï</span>
         </button>
 
         {/* Catégorie 2 : Cactus */}
         <button
-          className="footer__category-btn"
+          className="footer__category"
           onClick={() => handleCategoryClick("cactus", "/cactus")}
           aria-label="Voir les cactus"
         >
-          <span className="category-number">02</span>
-          <span className="category-name">Cactus</span>
+          <span className="footer__category-number">02</span>
+          <span className="footer__category-name">Cactus</span>
         </button>
       </div>
 
       {/* ========== SIGNATURE (Droite/Bas) ========== */}
       <div className="footer__signature">
-        <p className="signature-text">DB-développement</p>
-        <p className="signature-year">© 2024 - 2026</p>
+        <p className="footer__signature-highlight">DB-développement</p>
+        <p>© 2024 - 2026</p>
       </div>
     </footer>
   );

@@ -15,12 +15,10 @@
    ───────────────────────────────────────────────────────────────────────── */
 
 .category-page {
-    min-height: 100vh;
-
     display: flex;
     flex-direction: column;
 
-    /* Background par défaut (crème) */
+    /* Fond crème uni : l'image de fond ne sert plus qu'au bandeau titre */
     background-color: var(--color-light-bg);
 }
 
@@ -29,29 +27,22 @@
    ───────────────────────────────────────────────────────────────────────── */
 
 /**
- * .category-page--desert (pour /cactus)
- * Background : désert Far West (dunes, squelettes, cactus)
- * Importer : assets/images/backgrounds/bg-cactus.webp
+ * Image de fond appliquée au SEUL bandeau titre (pas à toute la page) :
+ * sur 1900px de haut, une image de 1024px était agrandie ~3x => floue.
+ * Calques : motif botanique > voile aux couleurs des bandeaux > photo.
  */
-.category-page--desert {
-    background-image: url('@/assets/images/backgrounds/bg-cactus.webp');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    /* Parallax effect */
+.category-page--desert .category-page__hero {
+    background:
+        var(--pattern-botanical),
+        linear-gradient(120deg, rgba(19, 36, 26, 0.75) 0%, rgba(43, 42, 23, 0.45) 100%),
+        url('@/assets/images/backgrounds/bg-cactus.webp') center 65% / cover no-repeat;
 }
 
-/**
- * .category-page--zen (pour /bonsai)
- * Background : jardin zen japonais (cerisier, temple, lanternes)
- * Importer : assets/images/backgrounds/bg-bonsai.webp
- */
-.category-page--zen {
-    background-image: url('@/assets/images/backgrounds/bg-bonsai.webp');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    /* Parallax effect */
+.category-page--zen .category-page__hero {
+    background:
+        var(--pattern-botanical),
+        linear-gradient(120deg, rgba(19, 36, 26, 0.75) 0%, rgba(43, 42, 23, 0.45) 100%),
+        url('@/assets/images/backgrounds/bg-bonsai.webp') center 40% / cover no-repeat;
 }
 
 /* ─────────────────────────────────────────────────────────────────────────
@@ -62,7 +53,7 @@
     position: relative;
 
     width: 100%;
-    min-height: 300px;
+    min-height: 200px;
 
     display: flex;
     align-items: center;
@@ -90,7 +81,7 @@
 
 /* Titre Hero */
 .category-page__title {
-    font-size: 3rem;
+    font-size: 2.4rem;
     font-weight: 900;
     color: var(--color-white);
 
@@ -104,8 +95,8 @@
 
 /* Sous-titre Hero */
 .category-page__subtitle {
-    font-size: 1.2rem;
-    color: var(--color-light-bg);
+    font-size: 1.05rem;
+    color: var(--banner-text);
 
     font-weight: 500;
     line-height: 1.6;
@@ -123,8 +114,6 @@
 
     width: 100%;
 
-    background: rgba(255, 255, 255, 0.95);
-    /* Fond blanc semi-transparent */
 
     padding: var(--spacing-xl) 0;
 }
@@ -166,12 +155,12 @@
 
 @media (max-width: 1024px) {
     .category-page__hero {
-        min-height: 250px;
+        min-height: 180px;
         padding: var(--spacing-lg);
     }
 
     .category-page__title {
-        font-size: 2.5rem;
+        font-size: 2.1rem;
     }
 
     .category-page__subtitle {
@@ -188,23 +177,9 @@
    ───────────────────────────────────────────────────────────────────────── */
 
 @media (max-width: 768px) {
-    .category-page {
-        /* Enlever parallax sur mobile (performance) */
-        background-attachment: scroll;
-    }
-
-    .category-page--desert,
-    .category-page--zen {
-        background-attachment: scroll;
-    }
-
     .category-page__hero {
-        min-height: 200px;
+        min-height: 150px;
         padding: var(--spacing-lg) var(--spacing-md);
-
-        background: linear-gradient(135deg,
-                rgba(45, 80, 22, 0.8) 0%,
-                rgba(45, 80, 22, 0.6) 100%);
     }
 
     .category-page__title {

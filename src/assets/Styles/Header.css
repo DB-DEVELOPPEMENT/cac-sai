@@ -14,16 +14,6 @@
     --color-white: #ffffff;
     /* Blanc pur */
 
-    --spacing-xs: 0.5rem;
-    /* 8px */
-    --spacing-sm: 1rem;
-    /* 16px */
-    --spacing-md: 1.5rem;
-    /* 24px */
-    --spacing-lg: 2rem;
-    /* 32px */
-    --spacing-xl: 3rem;
-    /* 48px */
 
     --border-radius: 8px;
     --transition-smooth: 0.3s ease-in-out;
@@ -38,8 +28,10 @@
     z-index: 1000;
     /* Haut z-index pour rester au-dessus */
 
-    background-color: var(--color-white);
-    box-shadow: var(--shadow-light);
+    /* Motif botanique (calque du dessus) sur dégradé du logo (calque du dessous) */
+    background: var(--pattern-botanical), var(--banner-gradient);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.35);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
 
     padding: var(--spacing-md) var(--spacing-lg);
 
@@ -59,12 +51,14 @@
     align-items: center;
     gap: var(--spacing-md);
 
-    flex: 0 0 auto;
-    /* Ne pas grandir */
+    flex: 0 1 auto;
+    min-width: 0;
+    /* Ne grandit pas, mais peut rétrécir sur mobile */
 }
 
 .header__logo {
     width: 60px;
+    flex-shrink: 0;
     height: 60px;
     background-size: contain;
     background-repeat: no-repeat;
@@ -82,7 +76,7 @@
 .header__title {
     font-size: 1.2rem;
     font-weight: 600;
-    color: var(--color-primary);
+    color: var(--banner-text);
 
     display: flex;
     flex-direction: column;
@@ -91,12 +85,12 @@
 
 .header__title-main {
     font-weight: 700;
-    color: var(--color-primary);
+    color: var(--banner-text);
 }
 
 .header__title-sub {
     font-size: 0.9rem;
-    color: var(--color-accent);
+    color: var(--banner-gold);
     font-weight: 500;
 }
 
@@ -117,7 +111,7 @@
 
 .header__social-link {
     font-size: 0.95rem;
-    color: var(--color-primary);
+    color: var(--banner-text);
     text-decoration: none;
     font-weight: 500;
 
@@ -154,8 +148,8 @@
    ───────────────────────────────────────────────────────────────────────── */
 
 .header__burger-btn {
-    display: none;
-    /* Caché sur desktop */
+    display: flex;
+    /* Visible partout, comme sur la maquette */
 
     background: none;
     border: none;
@@ -168,7 +162,8 @@
     margin: 0;
 
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 6px;
     align-items: center;
 
     transition: all var(--transition-smooth);
@@ -177,7 +172,7 @@
 .header__burger-line {
     width: 24px;
     height: 3px;
-    background-color: var(--color-primary);
+    background-color: var(--banner-gold);
     border-radius: 2px;
 
     transition: all var(--transition-smooth);
@@ -185,7 +180,7 @@
 
 /* Animation du burger quand actif */
 .header__burger-btn.active .header__burger-line:nth-child(1) {
-    transform: rotate(45deg) translate(8px, 8px);
+    transform: translateY(9px) rotate(45deg);
 }
 
 .header__burger-btn.active .header__burger-line:nth-child(2) {
@@ -193,7 +188,7 @@
 }
 
 .header__burger-btn.active .header__burger-line:nth-child(3) {
-    transform: rotate(-45deg) translate(7px, -7px);
+    transform: translateY(-9px) rotate(-45deg);
 }
 
 /* ─────────────────────────────────────────────────────────────────────────
@@ -268,4 +263,79 @@
 
 .header {
     animation: slideDownIn 0.5s ease-out;
+}
+/* ─────────────────────────────────────────────────────────────────────────
+   LOGO, TITRE, PARTIE DROITE, MENU DÉROULANT
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* Le logo a un fond noir : on l'affiche en tuile arrondie */
+.header__logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+/* Écrase les tailles globales de h1/p (index.css) dans le header */
+.header__title-main {
+    font-size: 1.25rem;
+    letter-spacing: 0;
+    margin: 0;
+}
+
+.header__title-sub {
+    margin: 0;
+    color: var(--banner-gold);
+}
+
+.header__right {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xl);
+}
+
+.header__social-link {
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-size: 0.8rem;
+    cursor: default;
+}
+
+.header__mobile-menu {
+    position: absolute;
+    top: 100%;
+    right: var(--spacing-lg);
+    min-width: 200px;
+
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-sm) 0;
+
+    background: #1a2e22;
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-medium);
+    animation: slideDownIn 0.2s ease-out;
+}
+
+.header__mobile-menu a {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    color: var(--banner-text);
+    font-weight: 600;
+}
+
+.header__mobile-menu a:hover {
+    background: rgba(212, 175, 55, 0.15);
+    color: var(--banner-gold);
+    text-decoration: none;
+}
+
+@media (max-width: 480px) {
+    .header__title-main {
+        font-size: 1rem;
+    }
+
+    .header__title-sub {
+        display: none;
+    }
 }

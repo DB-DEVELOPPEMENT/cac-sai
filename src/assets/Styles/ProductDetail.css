@@ -22,13 +22,13 @@
 }
 
 .product-detail-container {
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
 
     /* Layout 2 colonnes */
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 60px;
+    gap: 48px;
     align-items: start;
 }
 
@@ -42,8 +42,10 @@
     /* Reste visible quand scroll */
 
     width: 100%;
-    aspect-ratio: 4 / 5;
-    /* Ratio portrait cohérent avec produits */
+    aspect-ratio: 1;
+    max-height: 60vh;
+    /* Évite une image plus haute que l'écran */
+    /* Carré, cohérent avec les cartes produits */
 
     overflow: hidden;
     border-radius: 16px;
@@ -110,7 +112,7 @@
    ============================================================================ */
 
 .product-detail-name {
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: 700;
     color: #1a1a1a;
     line-height: 1.2;
@@ -207,6 +209,7 @@
     font-size: 0.9rem;
     color: #666;
     font-weight: 500;
+    text-transform: capitalize;
     margin-top: 8px;
 }
 
